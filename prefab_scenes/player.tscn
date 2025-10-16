@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://b512cc8qhxk21"]
+[gd_scene load_steps=15 format=3 uid="uid://b512cc8qhxk21"]
 
 [ext_resource type="Script" uid="uid://nsbxloeepkhh" path="res://prefab_scripts/player.gd" id="1_t3daw"]
 [ext_resource type="Texture2D" uid="uid://betlhm46gl1oh" path="res://sprites/player.png" id="1_xo1h1"]
 [ext_resource type="Texture2D" uid="uid://dov02ckr06tjx" path="res://sprites/player_hand-gun.png" id="2_t3daw"]
+[ext_resource type="Shader" uid="uid://bufh3tlc4gb6t" path="res://shaders/color_inversion.gdshader" id="4_2ju3q"]
+[ext_resource type="Texture2D" uid="uid://cxyktewpi03ft" path="res://sprites/cursor.png" id="4_nqlep"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3daw"]
 radius = 55.0
@@ -22,6 +24,22 @@ tracks/0/keys = {
 "values": [0.0]
 }
 
+[sub_resource type="Animation" id="Animation_xo1h1"]
+resource_name = "dash"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player_sprite:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10065834, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.293289, 0.0]
+}
+
 [sub_resource type="Animation" id="Animation_hqtel"]
 resource_name = "walk"
 length = 0.5
@@ -39,28 +57,54 @@ tracks/0/keys = {
 "values": [0.0, -0.07853982, 0.0, 0.07853982, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_xo1h1"]
-resource_name = "dash"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("player_sprite:skew")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.10065834, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 1.293289, 0.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2hs0m"]
 _data = {
 &"RESET": SubResource("Animation_sweqy"),
 &"dash": SubResource("Animation_xo1h1"),
 &"walk": SubResource("Animation_hqtel")
 }
+
+[sub_resource type="Animation" id="Animation_nqlep"]
+resource_name = "cursor"
+length = 0.35
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(4, 4), Vector2(2.5, 2.5), Vector2(4, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_2ju3q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4, 4)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7ah8x"]
+_data = {
+&"RESET": SubResource("Animation_2ju3q"),
+&"cursor": SubResource("Animation_nqlep")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ah8x"]
+shader = ExtResource("4_2ju3q")
+shader_parameter/intensity = 0.22000001045
 
 [node name="player" type="CharacterBody2D"]
 
@@ -85,3 +129,16 @@ texture = ExtResource("2_t3daw")
 libraries = {
 &"": SubResource("AnimationLibrary_2hs0m")
 }
+
+[node name="cursor_anims" type="AnimationPlayer" parent="."]
+root_node = NodePath("../gun_cursor_sprite")
+libraries = {
+&"": SubResource("AnimationLibrary_7ah8x")
+}
+
+[node name="gun_cursor_sprite" type="Sprite2D" parent="."]
+z_index = 50
+texture_filter = 1
+material = SubResource("ShaderMaterial_7ah8x")
+scale = Vector2(4, 4)
+texture = ExtResource("4_nqlep")
