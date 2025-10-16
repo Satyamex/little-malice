@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://b512cc8qhxk21"]
+
+[ext_resource type="Script" uid="uid://nsbxloeepkhh" path="res://prefab_scripts/player.gd" id="1_t3daw"]
+[ext_resource type="Texture2D" uid="uid://betlhm46gl1oh" path="res://sprites/player.png" id="1_xo1h1"]
+[ext_resource type="Texture2D" uid="uid://dov02ckr06tjx" path="res://sprites/player_hand-gun.png" id="2_t3daw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t3daw"]
+radius = 55.0
+
+[sub_resource type="Animation" id="Animation_sweqy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player_sprite:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_hqtel"]
+resource_name = "walk"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player_sprite:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.23333333, 0.36666667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.07853982, 0.0, 0.07853982, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_xo1h1"]
+resource_name = "dash"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player_sprite:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10065834, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.293289, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2hs0m"]
+_data = {
+&"RESET": SubResource("Animation_sweqy"),
+&"dash": SubResource("Animation_xo1h1"),
+&"walk": SubResource("Animation_hqtel")
+}
+
+[node name="player" type="CharacterBody2D"]
+
+[node name="player_collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_t3daw")
+debug_color = Color(0.99247307, 0.9984117, 0.9999997, 0.41960785)
+
+[node name="player_sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("1_xo1h1")
+
+[node name="player_gun_anchor" type="Node2D" parent="."]
+script = ExtResource("1_t3daw")
+
+[node name="player_gun_sprite" type="Sprite2D" parent="player_gun_anchor"]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("2_t3daw")
+
+[node name="player_anims" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_2hs0m")
+}
