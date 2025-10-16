@@ -1,33 +1,16 @@
-extends Node2D
+extends CharacterBody2D
 
-# refrences
-@onready var player_gun_anchor: Node2D = $"."
-@onready var player_sprite: Sprite2D = $"../player_sprite"
-@onready var player_gun_sprite: Sprite2D = $player_gun_sprite
-@onready var gun_cursor_sprite: Sprite2D = $"../gun_cursor_sprite"
-@onready var cursor_anims: AnimationPlayer = $"../cursor_anims"
+@onready var player: CharacterBody2D = $"."
+@onready var player_anims: AnimationPlayer = $player_anims
 
-# fields
-var paused: bool = false
+@export var speed: int = 80
 
-func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
-	cursor_anims.play("cursor")
-
-func _process(delta: float) -> void:
-	player_gun_anchor.look_at(get_global_mouse_position())
-	gun_cursor_sprite.position = get_global_mouse_position()
-	if get_global_mouse_position().x < self.position.x:
-		player_sprite.flip_h = true
-		player_gun_sprite.flip_v = true
+func _physics_process(_delta: float) -> void:
+	var direction: Vector2 = Vector2(Input.get_axis("ui_left","ui_right"), Input.get_axis("ui_up","ui_down"))
+	if direction.length() > 0:
+		direction = direction.normalized()
+		player.velocity = player.velocity.lerp(direction * speed, _delta * 10)
+		player_anims.play("walk")
 	else:
-		player_sprite.flip_h = false
-		player_gun_sprite.flip_v = false
-
-	if Input.is_action_just_pressed("pause"):
-		paused = !paused
-	match paused:
-		true:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		false:
-			Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+		player.velocity = player.velocity.lerp(Vector2.ZERO, _delta * 10)
+	player.move_and_slide()
