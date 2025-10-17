@@ -1,14 +1,61 @@
-[gd_scene load_steps=23 format=3 uid="uid://b512cc8qhxk21"]
+[gd_scene load_steps=34 format=3 uid="uid://b512cc8qhxk21"]
 
 [ext_resource type="Script" uid="uid://c8xj0bvphbc6d" path="res://prefab_scripts/player.gd" id="1_t3daw"]
 [ext_resource type="Texture2D" uid="uid://betlhm46gl1oh" path="res://sprites/player.png" id="1_xo1h1"]
 [ext_resource type="Texture2D" uid="uid://dov02ckr06tjx" path="res://sprites/player_hand-gun.png" id="2_t3daw"]
+[ext_resource type="Script" uid="uid://nyyh244nkgnu" path="res://prefab_scripts/gun_controller.gd" id="2_wc3t2"]
 [ext_resource type="Script" uid="uid://nsbxloeepkhh" path="res://prefab_scripts/player_gun_anchor.gd" id="3_7ah8x"]
+[ext_resource type="PackedScene" uid="uid://ctl8tli74apuc" path="res://prefab_scenes/player_bullet.tscn" id="3_vgixw"]
 [ext_resource type="Shader" uid="uid://bufh3tlc4gb6t" path="res://shaders/color_inversion.gdshader" id="4_2ju3q"]
 [ext_resource type="Texture2D" uid="uid://cxyktewpi03ft" path="res://sprites/cursor.png" id="4_nqlep"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3daw"]
 radius = 35.128338
+
+[sub_resource type="Curve" id="Curve_vgixw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5421053, 0.7509728), 0.0, 0.0, 0, 0, Vector2(0.9842106, 0.11284053), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_21gda"]
+curve = SubResource("Curve_vgixw")
+
+[sub_resource type="Gradient" id="Gradient_wc3t2"]
+colors = PackedColorArray(0.972549, 0.7019608, 0, 1, 1, 1, 0.011764706, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vgixw"]
+gradient = SubResource("Gradient_wc3t2")
+
+[sub_resource type="Curve" id="Curve_lsfiu"]
+_data = [Vector2(0, 0.8910506), 0.0, 0.0, 0, 0, Vector2(0.9947369, 0.22178996), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_d0ayv"]
+curve = SubResource("Curve_lsfiu")
+
+[sub_resource type="Curve" id="Curve_21gda"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.64736843, 0.84435797), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lsfiu"]
+curve = SubResource("Curve_21gda")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3gqde"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 2.0
+angle_min = -720.0
+angle_max = 61.00001
+spread = 174.0
+angular_velocity_min = -720.0
+angular_velocity_max = 719.99994
+gravity = Vector3(3000, 0, 0)
+scale_min = 3.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_lsfiu")
+color = Color(1, 0.5686275, 0.16862746, 1)
+color_ramp = SubResource("GradientTexture1D_vgixw")
+alpha_curve = SubResource("CurveTexture_21gda")
+emission_curve = SubResource("CurveTexture_d0ayv")
 
 [sub_resource type="Animation" id="Animation_sweqy"]
 length = 0.001
@@ -185,7 +232,7 @@ scale_max = 10.0
 scale_curve = SubResource("CurveTexture_vgixw")
 color = Color(1, 1, 1, 0.6039216)
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_t3daw")
 speed = 130
 dash_speed = 1000
@@ -193,6 +240,10 @@ dash_speed = 1000
 [node name="player_collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_t3daw")
 debug_color = Color(0.99247307, 0.9984117, 0.9999997, 0.41960785)
+
+[node name="gun_controller" type="Node2D" parent="."]
+script = ExtResource("2_wc3t2")
+player_bullet = ExtResource("3_vgixw")
 
 [node name="player_sprite" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -209,6 +260,18 @@ script = ExtResource("3_7ah8x")
 texture_filter = 1
 scale = Vector2(3, 3)
 texture = ExtResource("2_t3daw")
+
+[node name="muzzle_flash_particles" type="GPUParticles2D" parent="player_sprite/player_gun_anchor/player_gun_sprite"]
+z_index = -1
+position = Vector2(13.723412, 3.5445955)
+amount = 14
+lifetime = 0.12
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3gqde")
+
+[node name="bullet_spawnpos" type="Node2D" parent="player_sprite/player_gun_anchor/player_gun_sprite/muzzle_flash_particles"]
+position = Vector2(-2.6666665, 0)
 
 [node name="player_anims" type="AnimationPlayer" parent="."]
 libraries = {
