@@ -14,9 +14,7 @@ var sprite_facing_right: bool = true:
 	set(new_val):
 		if sprite_facing_right != new_val:
 				player_sprite.scale.x *= -1
-				player_gun_anchor.scale.y *= -1 
-				# instead od the gun sprite, im flipping the gun anchor as the sprite is in the walk anim
-				# and it being flipped fucks the animation. Flipping the anchor still fucks it, but much less 
+				player_gun_sprite.scale.y *= -1 
 		sprite_facing_right = new_val
 
 func _ready() -> void:

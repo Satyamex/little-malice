@@ -33,7 +33,9 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("dash") and direction != Vector2.ZERO and not dashed:
 			dashing = true
 			dashed = true
+			
 			dash_particles.process_material.set("direction", Vector3(-direction.x, -direction.y, 0))
+			print(dash_particles.process_material.get("direction"))
 			dash_timer = dash_duration
 			replenish_dash()
 			dash_particles.emitting = true

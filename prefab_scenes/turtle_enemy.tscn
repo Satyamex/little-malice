@@ -1,11 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://bf00o252qmi6d"]
+[gd_scene load_steps=7 format=3 uid="uid://bj650jel8uh1h"]
 
 [ext_resource type="Texture2D" uid="uid://hciomk547426" path="res://sprites/TurtleEnemy.png" id="1_hcapj"]
-[ext_resource type="Script" uid="uid://ctvxru6yttdl4" path="res://prefab_scripts/turtle_enemy.gd" id="1_opkcm"]
+[ext_resource type="Script" path="res://prefab_scripts/turtle_enemy.gd" id="1_opkcm"]
 [ext_resource type="PackedScene" uid="uid://cgjrofl74ryu6" path="res://prefab_scenes/blood_particles.tscn" id="2_yrpo8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hcapj"]
 radius = 23.0
+
+[sub_resource type="Gradient" id="Gradient_vgixw"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.019704433, 0.4827586, 0.71428573)
+colors = PackedColorArray(0, 0, 0, 0.43137255, 0, 0, 0, 0.09803922, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yrpo8"]
+gradient = SubResource("Gradient_vgixw")
+width = 24
+height = 12
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
 
 [node name="turtle_enemy" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_opkcm")
@@ -20,3 +33,8 @@ debug_color = Color(1, 1, 1, 0.41960785)
 texture_filter = 1
 scale = Vector2(3, 3)
 texture = ExtResource("1_hcapj")
+
+[node name="Shadow" type="Sprite2D" parent="sprite"]
+show_behind_parent = true
+position = Vector2(0, 7.333333)
+texture = SubResource("GradientTexture2D_yrpo8")

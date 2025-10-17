@@ -4,6 +4,7 @@ extends Node2D
 @onready var bullet_spawnpos: Node2D = $"../player_gun_anchor/player_gun_sprite/bullet_spawnpos"
 @onready var dash_particles: GPUParticles2D = $"../Particles/dash_particles"
 @onready var muzzle_flash_particles: GPUParticles2D = $"../Particles/muzzle_flash_particles"
+@onready var gun_anims: AnimationPlayer = $"../gun_anims"
 
 var shoot_cooldown: float
 var can_shoot: bool = true
@@ -18,6 +19,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_pressed("shoot") and can_shoot:
 		shoot_bullet()
+		gun_anims.play("GunFire")
 
 func shoot_bullet() -> void:
 	var direction = (gun_cursor_sprite.global_position - bullet_spawnpos.global_position)
