@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dov02ckr06tjx"
-path="res://.godot/imported/player_hand-gun.png-86297038b50bba451313875c62ebd28f.ctex"
+uid="uid://hciomk547426"
+path="res://.godot/imported/TurtleEnemy.png-8f0995fba27239ab74a4a6fb76cc3dde.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/player_hand-gun.png"
-dest_files=["res://.godot/imported/player_hand-gun.png-86297038b50bba451313875c62ebd28f.ctex"]
+source_file="res://sprites/TurtleEnemy.png"
+dest_files=["res://.godot/imported/TurtleEnemy.png-8f0995fba27239ab74a4a6fb76cc3dde.ctex"]
 
 [params]
 

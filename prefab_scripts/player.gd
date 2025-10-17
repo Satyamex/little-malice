@@ -41,7 +41,6 @@ func _process(_delta: float) -> void:
 		dash_timer -= _delta
 		if dash_timer <= 0:
 			dashing = false
-			#dash_particles.emitting = false
 
 	if dashing:
 		if direction.x > 0:

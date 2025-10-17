@@ -1,13 +1,13 @@
 [gd_scene load_steps=38 format=3 uid="uid://b512cc8qhxk21"]
 
 [ext_resource type="Script" uid="uid://c8xj0bvphbc6d" path="res://prefab_scripts/player.gd" id="1_t3daw"]
-[ext_resource type="Texture2D" uid="uid://betlhm46gl1oh" path="res://sprites/player.png" id="1_xo1h1"]
-[ext_resource type="Texture2D" uid="uid://dov02ckr06tjx" path="res://sprites/player_hand-gun.png" id="2_t3daw"]
+[ext_resource type="Texture2D" uid="uid://betlhm46gl1oh" path="res://sprites/PlayerStuff/player.png" id="1_xo1h1"]
+[ext_resource type="Texture2D" uid="uid://dov02ckr06tjx" path="res://sprites/PlayerStuff/player_hand-gun.png" id="2_t3daw"]
 [ext_resource type="Script" uid="uid://nyyh244nkgnu" path="res://prefab_scripts/gun_controller.gd" id="2_wc3t2"]
 [ext_resource type="Script" uid="uid://nsbxloeepkhh" path="res://prefab_scripts/player_gun_anchor.gd" id="3_7ah8x"]
 [ext_resource type="PackedScene" uid="uid://ctl8tli74apuc" path="res://prefab_scenes/player_bullet.tscn" id="3_vgixw"]
 [ext_resource type="Shader" uid="uid://bufh3tlc4gb6t" path="res://shaders/color_inversion.gdshader" id="4_2ju3q"]
-[ext_resource type="Texture2D" uid="uid://cxyktewpi03ft" path="res://sprites/cursor.png" id="4_nqlep"]
+[ext_resource type="Texture2D" uid="uid://cxyktewpi03ft" path="res://sprites/PlayerStuff/cursor.png" id="4_nqlep"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3daw"]
 radius = 35.128338
@@ -146,7 +146,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.25, 0.4, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-5, 0), Vector2(0, -5), Vector2(5, 0), Vector2(0, -5), Vector2(-5, 0)]
+"values": [Vector2(-5, 0), Vector2(0, -8), Vector2(5, 0), Vector2(0, -8), Vector2(-5, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2hs0m"]
