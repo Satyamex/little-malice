@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 @onready var player_anims: AnimationPlayer = $player_anims
-@onready var walk_particles: GPUParticles2D = $walk_particles
 @onready var player_sprite: Sprite2D = $player_sprite
-@onready var dash_particles: GPUParticles2D = $dash_particles
+@onready var walk_particles: GPUParticles2D = $Particles/walk_particles
+@onready var dash_particles: GPUParticles2D = $Particles/dash_particles
 
 @export var speed: int = 80
 @export var dash_speed: int = speed * 3
@@ -33,6 +33,7 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("dash") and direction != Vector2.ZERO and not dashed:
 			dashing = true
 			dashed = true
+			dash_particles.process_material.set("direction", Vector3(-direction.x, -direction.y, 0))
 			dash_timer = dash_duration
 			replenish_dash()
 			dash_particles.emitting = true
@@ -40,7 +41,7 @@ func _process(_delta: float) -> void:
 		dash_timer -= _delta
 		if dash_timer <= 0:
 			dashing = false
-			dash_particles.emitting = false
+			#dash_particles.emitting = false
 
 	if dashing:
 		if direction.x > 0:

@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://d7w8dcndov3c"]
+[gd_scene load_steps=4 format=3 uid="uid://d7w8dcndov3c"]
 
 [ext_resource type="Texture2D" uid="uid://187x1mkx0q47" path="res://icon.svg" id="1_nsj2l"]
 [ext_resource type="PackedScene" uid="uid://b512cc8qhxk21" path="res://prefab_scenes/player.tscn" id="2_8ws2d"]
+
+[sub_resource type="Environment" id="Environment_nsj2l"]
+background_mode = 3
+glow_enabled = true
 
 [node name="stage" type="Node2D"]
 
@@ -13,3 +17,6 @@ texture = ExtResource("1_nsj2l")
 
 [node name="player" parent="." instance=ExtResource("2_8ws2d")]
 position = Vector2(351, 185)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nsj2l")

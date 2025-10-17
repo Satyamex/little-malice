@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://b512cc8qhxk21"]
+[gd_scene load_steps=38 format=3 uid="uid://b512cc8qhxk21"]
 
 [ext_resource type="Script" uid="uid://c8xj0bvphbc6d" path="res://prefab_scripts/player.gd" id="1_t3daw"]
 [ext_resource type="Texture2D" uid="uid://betlhm46gl1oh" path="res://sprites/player.png" id="1_xo1h1"]
@@ -11,51 +11,6 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3daw"]
 radius = 35.128338
-
-[sub_resource type="Curve" id="Curve_vgixw"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5421053, 0.7509728), 0.0, 0.0, 0, 0, Vector2(0.9842106, 0.11284053), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_21gda"]
-curve = SubResource("Curve_vgixw")
-
-[sub_resource type="Gradient" id="Gradient_wc3t2"]
-colors = PackedColorArray(0.972549, 0.7019608, 0, 1, 1, 1, 0.011764706, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_vgixw"]
-gradient = SubResource("Gradient_wc3t2")
-
-[sub_resource type="Curve" id="Curve_lsfiu"]
-_data = [Vector2(0, 0.8910506), 0.0, 0.0, 0, 0, Vector2(0.9947369, 0.22178996), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_d0ayv"]
-curve = SubResource("Curve_lsfiu")
-
-[sub_resource type="Curve" id="Curve_21gda"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.64736843, 0.84435797), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_lsfiu"]
-curve = SubResource("Curve_21gda")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3gqde"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 2.0
-angle_min = -720.0
-angle_max = 61.00001
-spread = 174.0
-angular_velocity_min = -720.0
-angular_velocity_max = 719.99994
-gravity = Vector3(3000, 0, 0)
-scale_min = 3.0
-scale_max = 4.0
-scale_curve = SubResource("CurveTexture_lsfiu")
-color = Color(1, 0.5686275, 0.16862746, 1)
-color_ramp = SubResource("GradientTexture1D_vgixw")
-alpha_curve = SubResource("CurveTexture_21gda")
-emission_curve = SubResource("CurveTexture_d0ayv")
 
 [sub_resource type="Animation" id="Animation_sweqy"]
 length = 0.001
@@ -82,6 +37,30 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("player_gun_anchor/player_gun_sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("player_gun_anchor/player_gun_sprite:skew")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_xo1h1"]
@@ -119,6 +98,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_hqtel"]
 resource_name = "walk"
 length = 0.5
+loop_mode = 1
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -143,6 +123,30 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-5, 0), Vector2(0, -8), Vector2(5, 0), Vector2(0, -8), Vector2(-5, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("player_gun_anchor/player_gun_sprite:skew")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.25, 0.4, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.07853982, 0.0, 0.07853982, 0.0, -0.07853982]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("player_gun_anchor/player_gun_sprite:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.25, 0.4, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-5, 0), Vector2(0, -5), Vector2(5, 0), Vector2(0, -5), Vector2(-5, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2hs0m"]
@@ -195,6 +199,13 @@ _data = {
 shader = ExtResource("4_2ju3q")
 shader_parameter/intensity = 0.30000001425
 
+[sub_resource type="Curve" id="Curve_3gqde"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.41081083, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bcceh"]
+curve = SubResource("Curve_3gqde")
+
 [sub_resource type="Curve" id="Curve_7ah8x"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.8368422, 0.8599222), 0.6048815, 0.6048815, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -204,16 +215,16 @@ curve = SubResource("Curve_7ah8x")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7ah8x"]
 particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 4.0
+emission_shape = 3
+emission_box_extents = Vector3(10, 2, 1)
 angle_min = -720.0
 angle_max = 720.0
 spread = 118.435
-gravity = Vector3(-80, -2, 0)
-scale_min = 3.0
-scale_max = 5.0
+scale_min = 4.0
+scale_max = 6.0
 scale_curve = SubResource("CurveTexture_wc3t2")
-color = Color(1, 1, 1, 0.6117647)
+color = Color(0.63375676, 0.63375676, 0.6337569, 1)
+alpha_curve = SubResource("CurveTexture_bcceh")
 
 [sub_resource type="Curve" id="Curve_wc3t2"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.6684211, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -226,11 +237,69 @@ curve = SubResource("Curve_wc3t2")
 particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(1, 16, 1)
-gravity = Vector3(-5000, 0, 0)
+direction = Vector3(-1, 0, 0)
+spread = 20.0
+initial_velocity_min = 500.0
+initial_velocity_max = 500.0
+gravity = Vector3(0, 0, 0)
 scale_min = 5.0
 scale_max = 10.0
 scale_curve = SubResource("CurveTexture_vgixw")
 color = Color(1, 1, 1, 0.6039216)
+
+[sub_resource type="Curve" id="Curve_vgixw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5421053, 0.7509728), 0.0, 0.0, 0, 0, Vector2(0.9842106, 0.11284053), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_21gda"]
+curve = SubResource("Curve_vgixw")
+
+[sub_resource type="Gradient" id="Gradient_wc3t2"]
+colors = PackedColorArray(0.972549, 0.7019608, 0, 1, 1, 1, 0.011764706, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vgixw"]
+gradient = SubResource("Gradient_wc3t2")
+
+[sub_resource type="Curve" id="Curve_d0ayv"]
+_limits = [0.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.62162167, 73.03371), 0.0, 0.0, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_3gqde"]
+curve = SubResource("Curve_d0ayv")
+
+[sub_resource type="Curve" id="Curve_lsfiu"]
+_data = [Vector2(0, 0.8910506), 0.0, 0.0, 0, 0, Vector2(0.9947369, 0.22178996), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_d0ayv"]
+curve = SubResource("Curve_lsfiu")
+
+[sub_resource type="Curve" id="Curve_21gda"]
+_data = [Vector2(0, 0.516854), 0.0, 0.0, 0, 0, Vector2(0.74054056, 1), -1.0264946, -1.0264946, 0, 0, Vector2(1, 0.49438208), -0.6062735, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lsfiu"]
+curve = SubResource("Curve_21gda")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3gqde"]
+particle_flag_disable_z = true
+spread = 50.0
+initial_velocity_min = 42.149998
+initial_velocity_max = 100.0
+angular_velocity_min = -720.0
+angular_velocity_max = 719.99994
+gravity = Vector3(0, 0, 0)
+damping_min = 5.0
+damping_max = 8.0
+damping_curve = SubResource("CurveTexture_3gqde")
+scale_min = 5.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_lsfiu")
+color = Color(1, 0.5686275, 0.16862746, 1)
+color_ramp = SubResource("GradientTexture1D_vgixw")
+alpha_curve = SubResource("CurveTexture_21gda")
+emission_curve = SubResource("CurveTexture_d0ayv")
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_t3daw")
@@ -250,28 +319,19 @@ texture_filter = 1
 scale = Vector2(3, 3)
 texture = ExtResource("1_xo1h1")
 
-[node name="player_gun_anchor" type="Node2D" parent="player_sprite"]
-position = Vector2(1.2499999, 0)
-scale = Vector2(0.24999999, 0.25154373)
+[node name="player_gun_anchor" type="Node2D" parent="."]
+position = Vector2(3.7499995, 0)
+scale = Vector2(0.74999994, 0.7546311)
 skew = 0.07829869
 script = ExtResource("3_7ah8x")
 
-[node name="player_gun_sprite" type="Sprite2D" parent="player_sprite/player_gun_anchor"]
+[node name="player_gun_sprite" type="Sprite2D" parent="player_gun_anchor"]
 texture_filter = 1
 scale = Vector2(3, 3)
 texture = ExtResource("2_t3daw")
 
-[node name="muzzle_flash_particles" type="GPUParticles2D" parent="player_sprite/player_gun_anchor/player_gun_sprite"]
-z_index = -1
-position = Vector2(13.723412, 3.5445955)
-amount = 14
-lifetime = 0.12
-explosiveness = 1.0
-randomness = 1.0
-process_material = SubResource("ParticleProcessMaterial_3gqde")
-
-[node name="bullet_spawnpos" type="Node2D" parent="player_sprite/player_gun_anchor/player_gun_sprite/muzzle_flash_particles"]
-position = Vector2(-2.6666665, 0)
+[node name="bullet_spawnpos" type="Node2D" parent="player_gun_anchor/player_gun_sprite"]
+position = Vector2(11.056746, 3.5445957)
 
 [node name="player_anims" type="AnimationPlayer" parent="."]
 libraries = {
@@ -293,17 +353,33 @@ texture = ExtResource("4_nqlep")
 [node name="Cam" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 
-[node name="walk_particles" type="GPUParticles2D" parent="."]
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="walk_particles" type="GPUParticles2D" parent="Particles"]
 z_index = -1
-position = Vector2(-1, 24)
+position = Vector2(-1, 20)
 amount = 18
-lifetime = 0.9
+lifetime = 1.5
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_7ah8x")
 
-[node name="dash_particles" type="GPUParticles2D" parent="."]
+[node name="dash_particles" type="GPUParticles2D" parent="Particles"]
 z_index = -1
 lifetime = 0.18000000000000002
-explosiveness = 0.95
+explosiveness = 0.82
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_d0ayv")
+
+[node name="muzzle_flash_particles" type="GPUParticles2D" parent="Particles"]
+modulate = Color(4.0472336, 4.0472336, 4.0472336, 1)
+z_index = -1
+position = Vector2(34.000004, 8.000001)
+scale = Vector2(2.2499998, 2.2638931)
+skew = 0.07829869
+emitting = false
+amount = 14
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.95
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3gqde")
