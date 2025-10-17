@@ -1,4 +1,5 @@
 extends Node2D
+
 @onready var gun_cursor_sprite: Sprite2D = $"../gun_cursor_sprite"
 @onready var bullet_spawnpos: Node2D = $"../player_gun_anchor/player_gun_sprite/bullet_spawnpos"
 @onready var dash_particles: GPUParticles2D = $"../Particles/dash_particles"
@@ -16,15 +17,16 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if Input.is_action_pressed("shoot") and can_shoot:
-		can_shoot = false
 		shoot_bullet()
-	
 
 func shoot_bullet() -> void:
+	var direction = (gun_cursor_sprite.global_position - bullet_spawnpos.global_position)
+	if direction.length() < 20:
+		return
+	can_shoot = false
 	var bullet = player_bullet.instantiate()
 	add_child(bullet)
 	bullet.global_position = bullet_spawnpos.global_position
-	var direction = (gun_cursor_sprite.global_position - bullet_spawnpos.global_position).normalized()
 	muzzle_flash_particles.global_position = bullet_spawnpos.global_position
 	muzzle_flash_particles.restart()
 	muzzle_flash_particles.process_material.set("direction", Vector3(direction.x, direction.y, 0))

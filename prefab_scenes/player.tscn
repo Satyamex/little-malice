@@ -126,7 +126,7 @@ tracks/1/keys = {
 }
 tracks/2/type = "value"
 tracks/2/imported = false
-tracks/2/enabled = true
+tracks/2/enabled = false
 tracks/2/path = NodePath("player_gun_anchor/player_gun_sprite:skew")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
@@ -138,7 +138,7 @@ tracks/2/keys = {
 }
 tracks/3/type = "value"
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/path = NodePath("player_gun_anchor/player_gun_sprite:position")
 tracks/3/interp = 2
 tracks/3/loop_wrap = true
@@ -302,6 +302,8 @@ alpha_curve = SubResource("CurveTexture_21gda")
 emission_curve = SubResource("CurveTexture_d0ayv")
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_t3daw")
 speed = 130
 dash_speed = 1000
@@ -378,7 +380,7 @@ scale = Vector2(2.2499998, 2.2638931)
 skew = 0.07829869
 emitting = false
 amount = 14
-lifetime = 0.5
+lifetime = 0.09999999999999999
 one_shot = true
 explosiveness = 0.95
 randomness = 1.0
