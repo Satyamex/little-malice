@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bryka53g5csce"]
+[gd_scene load_steps=6 format=3 uid="uid://bryka53g5csce"]
 
 [ext_resource type="Texture2D" uid="uid://bof5hcp8la0ii" path="res://sprites/Capture.PNG" id="1_2a3y8"]
+[ext_resource type="Script" uid="uid://dnv5bcsdit3h8" path="res://game_scripts/main_menu.gd" id="1_ogugf"]
 [ext_resource type="Texture2D" uid="uid://bt7cipi7l4meg" path="res://sprites/paper.png" id="2_2a3y8"]
 [ext_resource type="FontFile" uid="uid://bgw2u4018lupq" path="res://fonts/PressStart2P-Regular.ttf" id="3_up4rn"]
 
@@ -14,6 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ogugf")
 
 [node name="bg" type="TextureRect" parent="."]
 layout_mode = 1
@@ -104,9 +106,9 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_colors/font_focus_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_pressed_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_hover_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_hover_pressed_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_pressed_color = Color(0.40196863, 0.40196836, 0.4019683, 1)
+theme_override_colors/font_hover_color = Color(0.28240767, 0.28240743, 0.28240746, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.40392157, 0.40392157, 0.40392157, 1)
 theme_override_fonts/font = ExtResource("3_up4rn")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_up4rn")
@@ -120,9 +122,9 @@ text = "QUIT"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_colors/font_focus_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_pressed_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_hover_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_hover_pressed_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_pressed_color = Color(0.40196863, 0.40196836, 0.4019683, 1)
+theme_override_colors/font_hover_color = Color(0.28240767, 0.28240743, 0.28240746, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.40392157, 0.40392157, 0.40392157, 1)
 theme_override_fonts/font = ExtResource("3_up4rn")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_up4rn")
@@ -136,9 +138,9 @@ text = "ABOUT"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.103743516, 0.10374353, 0.103743516, 1)
 theme_override_colors/font_focus_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_pressed_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_hover_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_colors/font_hover_pressed_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_pressed_color = Color(0.40196863, 0.40196836, 0.4019683, 1)
+theme_override_colors/font_hover_color = Color(0.28240767, 0.28240743, 0.28240746, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.40392157, 0.40392157, 0.40392157, 1)
 theme_override_fonts/font = ExtResource("3_up4rn")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_up4rn")
@@ -148,3 +150,10 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_up4rn")
 text = "PLAY
 "
+
+[node name="bg_music" type="AudioStreamPlayer" parent="."]
+volume_db = 10.0
+
+[connection signal="pressed" from="button_container/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="button_container/about_button" to="." method="_on_about_button_pressed"]
+[connection signal="pressed" from="button_container/play_button" to="." method="_on_play_button_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://d7w8dcndov3c"]
+[gd_scene load_steps=24 format=4 uid="uid://d7w8dcndov3c"]
 
 [ext_resource type="PackedScene" uid="uid://b512cc8qhxk21" path="res://prefab_scenes/player.tscn" id="2_8ws2d"]
 [ext_resource type="Script" uid="uid://ddfrmdbpbd8rj" path="res://prefab_scripts/enemy_spawner.gd" id="3_8ws2d"]
@@ -8,6 +8,34 @@
 [ext_resource type="PackedScene" uid="uid://uu4q5cgi3tpp" path="res://prefab_scenes/bomby_enemy.tscn" id="6_ppwnj"]
 [ext_resource type="PackedScene" uid="uid://cl2wdo72f6hyr" path="res://prefab_scenes/opto_enemy.tscn" id="6_wsfkm"]
 [ext_resource type="PackedScene" uid="uid://bj650jel8uh1h" path="res://prefab_scenes/turtle_enemy.tscn" id="7_ppwnj"]
+
+[sub_resource type="GDScript" id="GDScript_cjyvk"]
+script/source = "extends Node2D
+
+var player_died: bool = false
+var player_has_died: bool = false
+@onready var death_anim: AnimationPlayer = $death_anim
+@onready var ambient_audio: AudioStreamPlayer = $ambient_audio
+const AMBIENT_TRACK = preload(\"uid://d2wxvgk3jtpka\")
+const MAIN_MENU = preload(\"uid://bryka53g5csce\")
+
+func _ready() -> void:
+	ambient_audio.stream = AMBIENT_TRACK
+	ambient_audio.play()
+
+func _process(delta: float) -> void:
+	if player_died and not player_has_died:
+		kill_player()
+
+func kill_player():
+	player_has_died = true
+	death_anim.play(\"death\")
+	await get_tree().create_timer(0.4).timeout
+	Engine.time_scale = 0.3
+	await get_tree().create_timer(0.5).timeout
+	Engine.time_scale = 1
+	get_tree().change_scene_to_packed(MAIN_MENU)
+"
 
 [sub_resource type="Environment" id="Environment_nsj2l"]
 background_mode = 3
@@ -104,7 +132,69 @@ size = Vector2(4329, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l643k"]
 size = Vector2(2823.5, 32)
 
+[sub_resource type="Animation" id="Animation_a3d7a"]
+resource_name = "death"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ambient_light:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.77788156, 0.77788156, 0.7778816, 1), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("player/Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.015099495),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_rkmar"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ambient_light:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.77788156, 0.77788156, 0.7778816, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("player/Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rb6mg"]
+_data = {
+&"RESET": SubResource("Animation_rkmar"),
+&"death": SubResource("Animation_a3d7a")
+}
+
 [node name="stage" type="Node2D"]
+script = SubResource("GDScript_cjyvk")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nsj2l")
@@ -245,3 +335,10 @@ position = Vector2(2131, 466)
 
 [node name="Marker2D21" type="Marker2D" parent="enemy_spawner"]
 position = Vector2(-296, 278)
+
+[node name="ambient_audio" type="AudioStreamPlayer" parent="."]
+
+[node name="death_anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rb6mg")
+}

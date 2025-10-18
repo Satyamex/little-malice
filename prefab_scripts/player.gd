@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var dash_particles: GPUParticles2D = $Particles/dash_particles
 @onready var health_bar: TextureProgressBar = $CanvasLayer/Health/HealthBar
 @onready var killcount_text: Label = $CanvasLayer/Health/killcoount_text
+@onready var stage: Node2D = $".."
 
 @onready var top_limit: Marker2D = $"../cam_limits/top_limit"
 @onready var down_limit: Marker2D = $"../cam_limits/down_limit"
@@ -109,4 +110,4 @@ func replenish_dash() -> void:
 
 func _on_health_bar_value_changed(value: float) -> void:
 	if value <= 0:
-		print('you died')
+		stage.player_died = true
