@@ -23,7 +23,6 @@ func spawn() -> void:
 	elif enemy < 18: enemy_to_spawn = enemies[1]
 	elif enemy < 22: enemy_to_spawn = enemies[2]
 	elif enemy <= 24: enemy_to_spawn = enemies[3]
-	print(enemy)
 		#0: enemy_to_spawn = enemies[0]
 		#1: enemy_to_spawn = enemies[1]
 		#2: enemy_to_spawn = enemies[2]

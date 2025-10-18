@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dow63e51wxgab"]
+
+[ext_resource type="Script" uid="uid://bk0hi15qvplt1" path="res://prefab_scripts/flamethrower_item.gd" id="1_tha83"]
+[ext_resource type="Texture2D" uid="uid://b2qe2rkk0tffd" path="res://sprites/PlayerStuff/FlameThrowerItem.png" id="1_ufenp"]
+[ext_resource type="AudioStream" uid="uid://d2xndcxf4l5ra" path="res://Sfx/JDSherbert - Ultimate UI SFX Pack - Select - 2.mp3" id="3_svpoc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ufenp"]
+radius = 24.0
+
+[node name="flamethrower_item" type="Node2D"]
+script = ExtResource("1_tha83")
+
+[node name="item" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+scale = Vector2(2, 2)
+texture = ExtResource("1_ufenp")
+
+[node name="pick_area" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pick_area"]
+shape = SubResource("CircleShape2D_ufenp")
+
+[node name="click_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_svpoc")
+volume_db = 5.0
+
+[connection signal="body_entered" from="pick_area" to="." method="_on_pick_area_body_entered"]

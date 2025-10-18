@@ -7,6 +7,7 @@ extends Node2D
 @onready var gun_cursor_sprite: Sprite2D = $"../gun_cursor_sprite"
 @onready var cursor_anims: AnimationPlayer = $"../cursor_anims"
 @onready var player: CharacterBody2D = $".."
+@onready var flamethrower_sprite: Sprite2D = $flamethrower_sprite
 
 # fields
 var paused: bool = false
@@ -15,6 +16,7 @@ var sprite_facing_right: bool = true:
 		if sprite_facing_right != new_val:
 				player_sprite.scale.x *= -1
 				player_gun_sprite.scale.y *= -1 
+				flamethrower_sprite.scale.y *= -1
 		sprite_facing_right = new_val
 
 func _ready() -> void:

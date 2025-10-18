@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://b512cc8qhxk21"]
+[gd_scene load_steps=70 format=3 uid="uid://b512cc8qhxk21"]
 
 [ext_resource type="Script" uid="uid://c8xj0bvphbc6d" path="res://prefab_scripts/player.gd" id="1_t3daw"]
 [ext_resource type="Texture2D" uid="uid://betlhm46gl1oh" path="res://sprites/PlayerStuff/player.png" id="1_xo1h1"]
@@ -9,6 +9,7 @@
 [ext_resource type="Shader" uid="uid://bufh3tlc4gb6t" path="res://shaders/color_inversion.gdshader" id="4_2ju3q"]
 [ext_resource type="Shader" uid="uid://oy564plwbvo0" path="res://shaders/Flash.gdshader" id="4_lsfiu"]
 [ext_resource type="Texture2D" uid="uid://cxyktewpi03ft" path="res://sprites/PlayerStuff/cursor.png" id="4_nqlep"]
+[ext_resource type="Texture2D" uid="uid://b0ejrgn65480e" path="res://sprites/PlayerStuff/FlameThrowerInHand.png" id="8_67vui"]
 [ext_resource type="Texture2D" uid="uid://dvc0h367jayqu" path="res://sprites/PlayerStuff/PlayerHealth2.png" id="9_21gda"]
 [ext_resource type="Texture2D" uid="uid://l7ta3ckio6hl" path="res://sprites/PlayerStuff/PlayerHealth1.png" id="9_d0ayv"]
 [ext_resource type="Texture2D" uid="uid://cfuq3by5jr6ts" path="res://sprites/Skull1.png" id="12_dhcr4"]
@@ -16,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://bu40no0i71s7e" path="res://Sfx/gun2.wav" id="14_dhcr4"]
 [ext_resource type="AudioStream" uid="uid://ds6ww3rvyoec5" path="res://Sfx/wallk2.mp3" id="15_5g5dp"]
 [ext_resource type="AudioStream" uid="uid://2ha87yrfhrbl" path="res://Sfx/death.mp3" id="15_e4pv4"]
+[ext_resource type="AudioStream" uid="uid://b7oh5tb2ff46g" path="res://Sfx/flamethrower.wav" id="16_masxo"]
 [ext_resource type="AudioStream" uid="uid://dpbt12v2sa22o" path="res://Sfx/dash.mp3" id="17_6hi57"]
 [ext_resource type="AudioStream" uid="uid://c3sk1gavf8nio" path="res://Sfx/DamageTaken.wav" id="18_vrpfm"]
 
@@ -40,6 +42,10 @@ height = 12
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 1)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_67vui"]
+radius = 56.0
+height = 224.0
 
 [sub_resource type="Animation" id="Animation_sweqy"]
 length = 0.001
@@ -519,6 +525,42 @@ color_ramp = SubResource("GradientTexture1D_5g5dp")
 alpha_curve = SubResource("CurveTexture_dhcr4")
 emission_curve = SubResource("CurveTexture_6hi57")
 
+[sub_resource type="Curve" id="Curve_67vui"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0.0054054037, 4.044983), 0.0, 0.0, 0, 0, Vector2(1, 4.044983), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_masxo"]
+curve = SubResource("Curve_67vui")
+
+[sub_resource type="Gradient" id="Gradient_67vui"]
+offsets = PackedFloat32Array(0, 0.32704404, 0.5534591, 0.8679245, 1)
+colors = PackedColorArray(1, 1, 0.7058824, 1, 1, 0.5411765, 0, 1, 0.94083434, 0.13394111, 0, 1, 1, 0.5411765, 0, 1, 0.54629534, 0.28479013, 9.62615e-08, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_masxo"]
+gradient = SubResource("Gradient_67vui")
+
+[sub_resource type="Curve" id="Curve_iqekj"]
+_data = [Vector2(0, 0.22471917), 0.0, 0.0, 0, 0, Vector2(0.48108113, 0.57303375), 0.0, 0.0, 0, 0, Vector2(0.745946, 0.6966293), 0.0, 0.0, 0, 0, Vector2(0.81081086, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_gs0sd"]
+curve = SubResource("Curve_iqekj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_67vui"]
+particle_flag_disable_z = true
+spread = 30.0
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+angular_velocity_min = -10.000016
+angular_velocity_max = 9.999984
+angular_velocity_curve = SubResource("CurveTexture_masxo")
+gravity = Vector3(0, 10, 0)
+scale_min = 30.0
+scale_max = 50.0
+scale_curve = SubResource("CurveTexture_gs0sd")
+color_ramp = SubResource("GradientTexture1D_masxo")
+
 [sub_resource type="Animation" id="Animation_6820e"]
 resource_name = "Transition"
 tracks/0/type = "value"
@@ -531,7 +573,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(80, 0)]
+"values": [Vector2(0, 0), Vector2(150, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_pg84b"]
@@ -557,7 +599,7 @@ _data = {
 
 [sub_resource type="Gradient" id="Gradient_6820e"]
 interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.009852217)
+offsets = PackedFloat32Array(0, 0.0049261083)
 colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_vrpfm"]
@@ -584,6 +626,10 @@ debug_color = Color(0.99247307, 0.9984117, 0.9999997, 0.41960785)
 script = ExtResource("2_wc3t2")
 player_bullet = ExtResource("3_vgixw")
 
+[node name="power_mode_dur" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [node name="player_sprite" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_3gqde")
@@ -608,6 +654,27 @@ texture = ExtResource("2_t3daw")
 
 [node name="bullet_spawnpos" type="Marker2D" parent="player_gun_anchor/player_gun_sprite"]
 position = Vector2(11.056746, 3.5445957)
+
+[node name="flamethrower_sprite" type="Sprite2D" parent="player_gun_anchor"]
+visible = false
+modulate = Color(1.7818615, 1.7818615, 1.7818615, 1)
+texture_filter = 1
+position = Vector2(-5.0000005, 0)
+scale = Vector2(3, 3)
+texture = ExtResource("8_67vui")
+
+[node name="firestart_pos" type="Marker2D" parent="player_gun_anchor/flamethrower_sprite"]
+position = Vector2(11.056746, 3.5445957)
+
+[node name="FlameArea" type="Area2D" parent="."]
+
+[node name="flame_dps_timer" type="Timer" parent="FlameArea"]
+wait_time = 0.2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FlameArea"]
+position = Vector2(136, 8)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_67vui")
 
 [node name="player_anims" type="AnimationPlayer" parent="."]
 libraries = {
@@ -666,6 +733,13 @@ explosiveness = 0.95
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_3gqde")
 
+[node name="flame_thrower_particles" type="GPUParticles2D" parent="Particles"]
+position = Vector2(34, 8)
+emitting = false
+amount = 32
+lifetime = 1.25
+process_material = SubResource("ParticleProcessMaterial_67vui")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Health" type="Control" parent="CanvasLayer"]
@@ -721,7 +795,6 @@ vertical_alignment = 1
 libraries = {
 &"": SubResource("AnimationLibrary_pg84b")
 }
-autoplay = "TransitionStart"
 
 [node name="TransitionRect" type="TextureRect" parent="CanvasLayer"]
 offset_right = 640.0
@@ -737,6 +810,10 @@ texture = SubResource("GradientTexture2D_vrpfm")
 stream = ExtResource("14_dhcr4")
 volume_db = -10.0
 pitch_scale = 1.46
+
+[node name="flamethrower_sfx" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("16_masxo")
+volume_db = -15.0
 
 [node name="death" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("15_e4pv4")
@@ -758,6 +835,10 @@ stream = ExtResource("18_vrpfm")
 volume_db = -15.0
 pitch_scale = 1.5
 
+[connection signal="timeout" from="power_mode_dur" to="." method="_on_power_mode_dur_timeout"]
+[connection signal="body_entered" from="FlameArea" to="gun_controller" method="_on_flame_area_body_entered"]
+[connection signal="body_exited" from="FlameArea" to="gun_controller" method="_on_flame_area_body_exited"]
+[connection signal="timeout" from="FlameArea/flame_dps_timer" to="gun_controller" method="_on_flame_dps_timer_timeout"]
 [connection signal="value_changed" from="CanvasLayer/Health/HealthBar" to="." method="_on_health_bar_value_changed"]
 [connection signal="finished" from="Sfx/gun_sfx" to="gun_controller" method="_on_gun_sfx_finished"]
 [connection signal="finished" from="Sfx/walk_sfx" to="." method="_on_walk_sfx_finished"]

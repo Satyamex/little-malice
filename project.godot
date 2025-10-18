@@ -15,7 +15,7 @@ run/main_scene="uid://bryka53g5csce"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(1, 0.7411765, 0.29411766, 1)
 boot_splash/image="uid://ctwbiqfynky73"
-config/icon="res://icon.svg"
+config/icon="uid://bof5hcp8la0ii"
 
 [display]
 

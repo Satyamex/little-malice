@@ -6,6 +6,8 @@ extends CharacterBody2D
 @onready var right_slash: AnimatedSprite2D = $RightSlash
 @onready var death_sfx: AudioStreamPlayer = $sfx/death_sfx
 @onready var opto_anims: AnimationPlayer = $opto_anims
+@onready var stage: Node2D = $".."
+const FLAMETHROWER_ITEM = preload("uid://dow63e51wxgab")
 
 @export var speed: int = 40
 ## damage dealt by this enemy in 1 attack
@@ -63,6 +65,9 @@ func take_damage(damage: int):
 	sprite.material.set("shader_parameter/active", false)
 
 func die():
+	var flame_thrower: Node2D = FLAMETHROWER_ITEM.instantiate()
+	add_sibling(flame_thrower)
+	flame_thrower.global_position = self.global_position
 	var rand: float = randf_range(-.25,.25)
 	death_sfx.pitch_scale += rand
 	death_sfx.play()

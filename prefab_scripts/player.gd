@@ -12,11 +12,17 @@ extends CharacterBody2D
 @onready var dash_sfx: AudioStreamPlayer = $Sfx/dash_sfx
 @onready var dmg_taken_sfx: AudioStreamPlayer = $Sfx/dmg_taken_sfx
 @onready var transition_anim: AnimationPlayer = $CanvasLayer/transition_anim
+@onready var player_gun_sprite: Sprite2D = $player_gun_anchor/player_gun_sprite
+@onready var flamethrower_sprite: Sprite2D = $player_gun_anchor/flamethrower_sprite
+@onready var flamethrower_sfx: AudioStreamPlayer = $Sfx/flamethrower_sfx
 
 @onready var top_limit: Marker2D = $"../cam_limits/top_limit"
 @onready var down_limit: Marker2D = $"../cam_limits/down_limit"
 @onready var left_limit: Marker2D = $"../cam_limits/left_limit"
 @onready var right_limit: Marker2D = $"../cam_limits/right_limit"
+@onready var flame_dps_timer: Timer = $FlameArea/flame_dps_timer
+@onready var power_mode_dur: Timer = $power_mode_dur
+@onready var flame_thrower_particles: GPUParticles2D = $Particles/flame_thrower_particles
 
 @onready var cam: Camera2D = $Cam
 
@@ -25,6 +31,23 @@ extends CharacterBody2D
 @export var dash_speed: int = speed * 3
 @export var dash_duration: float = 0.15
 @export var dash_cooldown: float = 1.4
+
+
+var power_mode: bool = false:
+	set(new_val):
+		if power_mode != new_val:
+			power_mode = new_val
+		if power_mode:
+			player_gun_sprite.visible = false
+			flamethrower_sprite.visible = true
+			flame_dps_timer.start()
+			power_mode_dur.start()
+		else:
+			player_gun_sprite.visible = true
+			flamethrower_sprite.visible = false
+			flame_dps_timer.stop()
+			flame_thrower_particles.emitting = false
+			flamethrower_sfx.playing = false
 
 var health_tween: Tween
 var killcount: int = 0
@@ -46,8 +69,6 @@ var dash_timer: float = 0.0
 var dashed: bool = false
 var direction: Vector2 = Vector2.ZERO
 
-func yes():
-	player_anims.play("death")
 
 func _ready() -> void:
 	og_walk_pitch = walk_sfx.pitch_scale
@@ -68,6 +89,10 @@ func _ready() -> void:
 	walk_particles.emitting = false
 	dash_particles.visible = true
 	walk_particles.visible = true
+	transition_anim.play("TransitionStart")
+	
+	#await get_tree().create_timer(2).timeout
+	#power_mode = true
 
 func _process(_delta: float) -> void:
 	direction = Vector2(Input.get_axis("move_left","move_right"), Input.get_axis("move_up","move_down"))
@@ -130,3 +155,6 @@ func _on_health_bar_value_changed(value: float) -> void:
 
 func _on_walk_sfx_finished() -> void:
 	walk_sfx.pitch_scale = og_walk_pitch
+
+func _on_power_mode_dur_timeout() -> void:
+	power_mode = false

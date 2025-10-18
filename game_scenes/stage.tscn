@@ -1,7 +1,7 @@
 [gd_scene load_steps=24 format=4 uid="uid://d7w8dcndov3c"]
 
 [ext_resource type="PackedScene" uid="uid://b512cc8qhxk21" path="res://prefab_scenes/player.tscn" id="2_8ws2d"]
-[ext_resource type="Script" path="res://prefab_scripts/enemy_spawner.gd" id="3_8ws2d"]
+[ext_resource type="Script" uid="uid://ddfrmdbpbd8rj" path="res://prefab_scripts/enemy_spawner.gd" id="3_8ws2d"]
 [ext_resource type="Script" path="res://prefab_scripts/game_manager.gd" id="3_cjyvk"]
 [ext_resource type="PackedScene" uid="uid://6ig08sr3j536" path="res://prefab_scenes/goober_enemy.tscn" id="4_hvp3b"]
 [ext_resource type="Texture2D" uid="uid://dhj1wadvt5wpe" path="res://sprites/Map/MapTiles.png" id="4_l643k"]
@@ -25,8 +25,6 @@ var player_has_died: bool = false
 func _ready() -> void:
 	ambient_audio.stream = AMBIENT_TRACK
 	ambient_audio.play()
-	await get_tree().create_timer(2).timeout
-	kill_player()
 
 func _process(_delta: float) -> void:
 	if player_died and not player_has_died:
@@ -349,3 +347,6 @@ position = Vector2(-296, 278)
 libraries = {
 &"": SubResource("AnimationLibrary_rb6mg")
 }
+
+[node name="opto_enemy" parent="." instance=ExtResource("6_wsfkm")]
+position = Vector2(344, 656)
