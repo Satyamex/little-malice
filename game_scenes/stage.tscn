@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=4 uid="uid://d7w8dcndov3c"]
+[gd_scene load_steps=12 format=4 uid="uid://d7w8dcndov3c"]
 
 [ext_resource type="PackedScene" uid="uid://b512cc8qhxk21" path="res://prefab_scenes/player.tscn" id="2_8ws2d"]
 [ext_resource type="PackedScene" uid="uid://bj650jel8uh1h" path="res://prefab_scenes/turtle_enemy.tscn" id="3_8ws2d"]
+[ext_resource type="Texture2D" uid="uid://d28tl2x0aewn7" path="res://sprites/light_texture.png" id="3_l643k"]
 [ext_resource type="Texture2D" uid="uid://dhj1wadvt5wpe" path="res://sprites/Map/MapTiles.png" id="4_l643k"]
 
 [sub_resource type="Environment" id="Environment_nsj2l"]
@@ -98,6 +99,11 @@ tile_set = SubResource("TileSet_hvp3b")
 [node name="player" parent="." instance=ExtResource("2_8ws2d")]
 position = Vector2(850, 425)
 
+[node name="PointLight2D" type="PointLight2D" parent="player"]
+energy = 0.16
+texture = ExtResource("3_l643k")
+texture_scale = 4.29
+
 [node name="turtle_enemy" parent="." instance=ExtResource("3_8ws2d")]
 position = Vector2(583, 333)
 
@@ -122,3 +128,6 @@ shape = SubResource("RectangleShape2D_l643k")
 position = Vector2(2803, 481)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_l643k")
+
+[node name="ambient_light" type="CanvasModulate" parent="."]
+color = Color(0.77788156, 0.77788156, 0.7778816, 1)
