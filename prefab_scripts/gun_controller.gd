@@ -1,10 +1,13 @@
-extends Node2D
+extends Node
 
 @onready var gun_cursor_sprite: Sprite2D = $"../gun_cursor_sprite"
-@onready var bullet_spawnpos: Node2D = $"../player_gun_anchor/player_gun_sprite/bullet_spawnpos"
+@onready var bullet_spawnpos: Marker2D = $"../player_gun_anchor/player_gun_sprite/bullet_spawnpos"
 @onready var dash_particles: GPUParticles2D = $"../Particles/dash_particles"
 @onready var muzzle_flash_particles: GPUParticles2D = $"../Particles/muzzle_flash_particles"
 @onready var gun_anims: AnimationPlayer = $"../gun_anims"
+@onready var bullets_container: Node2D = $"../Bullets_container"
+@onready var player: CharacterBody2D = $".."
+@onready var gun_sfx: AudioStreamPlayer = $"../Sfx/gun_sfx"
 
 var shoot_cooldown: float
 var can_shoot: bool = true
@@ -21,19 +24,20 @@ func _process(_delta: float) -> void:
 		shoot_bullet()
 
 func shoot_bullet() -> void:
+	gun_sfx.play()
 	var direction = (gun_cursor_sprite.global_position - bullet_spawnpos.global_position)
 	if direction.length() < 20:
 		return
 	can_shoot = false
 	gun_anims.play("GunFire")
 	var bullet = player_bullet.instantiate()
-	add_child(bullet)
+	bullets_container.add_child(bullet)
 	bullet.global_position = bullet_spawnpos.global_position
 	muzzle_flash_particles.global_position = bullet_spawnpos.global_position
 	muzzle_flash_particles.restart()
 	muzzle_flash_particles.process_material.set("direction", Vector3(direction.x, direction.y, 0))
 	bullet.rotation = direction.angle() + PI/2
 	if bullet.has_method("shoot"):
-		bullet.shoot(direction)
+		bullet.shoot(direction, player)
 		await get_tree().create_timer(shoot_cooldown).timeout
 		can_shoot = true

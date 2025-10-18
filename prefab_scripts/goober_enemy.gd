@@ -1,12 +1,22 @@
 extends CharacterBody2D
 
+const projectile_tscn = preload("uid://ctl8tli74apuc") #plyaer bullet scene
+const slime_bullet_sprite = preload("uid://hmxj5jbepehq")
+
 @onready var sprite: Sprite2D = $sprite
 @onready var collider: CollisionShape2D = $collider
 @onready var gun_sprite: Sprite2D = $gun_anchor/gun_sprite
 @onready var gun_anchor: Node2D = $gun_anchor
+@onready var bullet_spawnpos: Marker2D = $gun_anchor/gun_sprite/bullet_spawnpos
+@onready var muzzle_flash_particles: GPUParticles2D = $Particles/muzzle_flash_particles
+@onready var bullet_container: Node2D = $bullet_container
+
 
 @export var speed: int = 30
+@export var projectile_speed: int = 450
 @export var health: int = 15
+## damage dealt by this enemy in 1 attack
+@export var attack_power: int = 1
 @export var blood_particles: PackedScene
 
 var player: CharacterBody2D
@@ -14,6 +24,9 @@ var direction: Vector2
 var died: bool = false
 
 func _ready() -> void:
+	#shoot_cooldown = muzzle_flash_particles.lifetime + muzzle_flash_particles.lifetime / 2
+	await get_tree().create_timer(muzzle_flash_particles.lifetime + 0.5).timeout
+	muzzle_flash_particles.emitting = false
 	player = get_tree().get_first_node_in_group("player")
 
 func _physics_process(_delta: float) -> void:
@@ -37,8 +50,29 @@ func _process(_delta: float) -> void:
 		die()
 	gun_anchor.look_at(player.position)
 
+func attack() -> void:
+	var attack_direction = (player.global_position - bullet_spawnpos.global_position)
+	var bullet = projectile_tscn.instantiate()
+	bullet_container.add_child(bullet)
+	
+	#attack power of THIS enemy will be applied to the bullet
+	bullet.damage = attack_power
+	bullet.speed = projectile_speed
+	bullet.sprite.texture = slime_bullet_sprite
+	
+	bullet.global_position = bullet_spawnpos.global_position
+	muzzle_flash_particles.global_position = bullet_spawnpos.global_position
+	muzzle_flash_particles.restart()
+	muzzle_flash_particles.process_material.set("direction", Vector3(direction.x, direction.y, 0))
+	bullet.rotation = attack_direction.angle() + PI/2
+	if bullet.has_method("shoot"):
+		bullet.shoot(attack_direction, self)
+
 func take_damage(damage: int):
 	health -= damage
+	sprite.material.set("shader_parameter/active", true)
+	await get_tree().create_timer(.1).timeout
+	sprite.material.set("shader_parameter/active", false)
 
 func die():
 	sprite.visible = false

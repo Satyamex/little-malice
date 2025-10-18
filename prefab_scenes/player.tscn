@@ -1,16 +1,26 @@
-[gd_scene load_steps=43 format=3 uid="uid://b512cc8qhxk21"]
+[gd_scene load_steps=48 format=3 uid="uid://b512cc8qhxk21"]
 
 [ext_resource type="Script" uid="uid://c8xj0bvphbc6d" path="res://prefab_scripts/player.gd" id="1_t3daw"]
 [ext_resource type="Texture2D" uid="uid://betlhm46gl1oh" path="res://sprites/PlayerStuff/player.png" id="1_xo1h1"]
 [ext_resource type="Texture2D" uid="uid://dov02ckr06tjx" path="res://sprites/PlayerStuff/player_hand-gun.png" id="2_t3daw"]
 [ext_resource type="Script" uid="uid://nyyh244nkgnu" path="res://prefab_scripts/gun_controller.gd" id="2_wc3t2"]
 [ext_resource type="Script" uid="uid://nsbxloeepkhh" path="res://prefab_scripts/player_gun_anchor.gd" id="3_7ah8x"]
-[ext_resource type="PackedScene" uid="uid://ctl8tli74apuc" path="res://prefab_scenes/player_bullet.tscn" id="3_vgixw"]
+[ext_resource type="PackedScene" uid="uid://ctl8tli74apuc" path="res://prefab_scenes/projectile.tscn" id="3_vgixw"]
 [ext_resource type="Shader" uid="uid://bufh3tlc4gb6t" path="res://shaders/color_inversion.gdshader" id="4_2ju3q"]
+[ext_resource type="Shader" uid="uid://oy564plwbvo0" path="res://shaders/Flash.gdshader" id="4_lsfiu"]
 [ext_resource type="Texture2D" uid="uid://cxyktewpi03ft" path="res://sprites/PlayerStuff/cursor.png" id="4_nqlep"]
+[ext_resource type="Texture2D" uid="uid://dvc0h367jayqu" path="res://sprites/PlayerStuff/PlayerHealth2.png" id="9_21gda"]
+[ext_resource type="Texture2D" uid="uid://l7ta3ckio6hl" path="res://sprites/PlayerStuff/PlayerHealth1.png" id="9_d0ayv"]
+[ext_resource type="AudioStream" uid="uid://cdrnwmhw1y27" path="res://Sfx/gunshot.wav" id="12_3gqde"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_t3daw"]
-radius = 35.128338
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lsfiu"]
+radius = 16.0
+height = 48.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3gqde"]
+shader = ExtResource("4_lsfiu")
+shader_parameter/active = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Gradient" id="Gradient_vgixw"]
 interpolation_mode = 1
@@ -326,14 +336,14 @@ shader_parameter/intensity = 0.0
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.41081083, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_bcceh"]
+[sub_resource type="CurveTexture" id="CurveTexture_lsfiu"]
 curve = SubResource("Curve_3gqde")
 
 [sub_resource type="Curve" id="Curve_bcceh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.8368422, 0.8599222), 0.6048815, 0.6048815, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_wc3t2"]
+[sub_resource type="CurveTexture" id="CurveTexture_3gqde"]
 curve = SubResource("Curve_bcceh")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dhcr4"]
@@ -345,15 +355,15 @@ angle_max = 720.0
 spread = 118.435
 scale_min = 4.0
 scale_max = 6.0
-scale_curve = SubResource("CurveTexture_wc3t2")
+scale_curve = SubResource("CurveTexture_3gqde")
 color = Color(1, 0.780559, 0.6679948, 1)
-alpha_curve = SubResource("CurveTexture_bcceh")
+alpha_curve = SubResource("CurveTexture_lsfiu")
 
 [sub_resource type="Curve" id="Curve_wc3t2"]
 _data = [Vector2(0, 0.84269667), 0.0, 0.0, 0, 0, Vector2(0.6810811, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_vgixw"]
+[sub_resource type="CurveTexture" id="CurveTexture_bcceh"]
 curve = SubResource("Curve_wc3t2")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_d0ayv"]
@@ -368,20 +378,20 @@ initial_velocity_max = 700.0
 gravity = Vector3(0, -1000, 0)
 scale_min = 10.0
 scale_max = 20.0
-scale_curve = SubResource("CurveTexture_vgixw")
+scale_curve = SubResource("CurveTexture_bcceh")
 color = Color(1, 1, 1, 0.6039216)
 
 [sub_resource type="Curve" id="Curve_vgixw"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5421053, 0.7509728), 0.0, 0.0, 0, 0, Vector2(0.9842106, 0.11284053), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_21gda"]
+[sub_resource type="CurveTexture" id="CurveTexture_dhcr4"]
 curve = SubResource("Curve_vgixw")
 
 [sub_resource type="Gradient" id="Gradient_wc3t2"]
 colors = PackedColorArray(0.972549, 0.7019608, 0, 1, 1, 1, 0.011764706, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_vgixw"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5g5dp"]
 gradient = SubResource("Gradient_wc3t2")
 
 [sub_resource type="Curve" id="Curve_d0ayv"]
@@ -389,21 +399,21 @@ _limits = [0.0, 100.0, 0.0, 1.0]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.62162167, 73.03371), 0.0, 0.0, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_3gqde"]
+[sub_resource type="CurveTexture" id="CurveTexture_e4pv4"]
 curve = SubResource("Curve_d0ayv")
 
 [sub_resource type="Curve" id="Curve_lsfiu"]
 _data = [Vector2(0, 0.8910506), 0.0, 0.0, 0, 0, Vector2(0.9947369, 0.22178996), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_d0ayv"]
+[sub_resource type="CurveTexture" id="CurveTexture_6hi57"]
 curve = SubResource("Curve_lsfiu")
 
 [sub_resource type="Curve" id="Curve_21gda"]
 _data = [Vector2(0, 0.516854), 0.0, 0.0, 0, 0, Vector2(0.74054056, 1), -1.0264946, -1.0264946, 0, 0, Vector2(1, 0.49438208), -0.6062735, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_lsfiu"]
+[sub_resource type="CurveTexture" id="CurveTexture_vrpfm"]
 curve = SubResource("Curve_21gda")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3gqde"]
@@ -416,14 +426,14 @@ angular_velocity_max = 719.99994
 gravity = Vector3(0, 0, 0)
 damping_min = 5.0
 damping_max = 8.0
-damping_curve = SubResource("CurveTexture_3gqde")
+damping_curve = SubResource("CurveTexture_e4pv4")
 scale_min = 5.0
 scale_max = 8.0
-scale_curve = SubResource("CurveTexture_lsfiu")
+scale_curve = SubResource("CurveTexture_vrpfm")
 color = Color(1, 0.5686275, 0.16862746, 1)
-color_ramp = SubResource("GradientTexture1D_vgixw")
-alpha_curve = SubResource("CurveTexture_21gda")
-emission_curve = SubResource("CurveTexture_d0ayv")
+color_ramp = SubResource("GradientTexture1D_5g5dp")
+alpha_curve = SubResource("CurveTexture_dhcr4")
+emission_curve = SubResource("CurveTexture_6hi57")
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
@@ -433,15 +443,17 @@ speed = 130
 dash_speed = 1000
 
 [node name="player_collider" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_t3daw")
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_lsfiu")
 debug_color = Color(0.99247307, 0.9984117, 0.9999997, 0.41960785)
 
-[node name="gun_controller" type="Node2D" parent="."]
+[node name="gun_controller" type="Node" parent="."]
 script = ExtResource("2_wc3t2")
 player_bullet = ExtResource("3_vgixw")
 
 [node name="player_sprite" type="Sprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_3gqde")
 scale = Vector2(3, 3)
 texture = ExtResource("1_xo1h1")
 
@@ -461,7 +473,7 @@ texture_filter = 1
 scale = Vector2(3, 3)
 texture = ExtResource("2_t3daw")
 
-[node name="bullet_spawnpos" type="Node2D" parent="player_gun_anchor/player_gun_sprite"]
+[node name="bullet_spawnpos" type="Marker2D" parent="player_gun_anchor/player_gun_sprite"]
 position = Vector2(11.056746, 3.5445957)
 
 [node name="player_anims" type="AnimationPlayer" parent="."]
@@ -520,3 +532,36 @@ one_shot = true
 explosiveness = 0.95
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_3gqde")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Health" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/Health"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 48.0
+offset_bottom = 44.0
+scale = Vector2(2, 2)
+max_value = 5.0
+step = 0.1
+value = 5.0
+fill_mode = 3
+texture_under = ExtResource("9_21gda")
+texture_progress = ExtResource("9_d0ayv")
+
+[node name="Bullets_container" type="Node2D" parent="."]
+
+[node name="Sfx" type="Node" parent="."]
+
+[node name="gun_sfx" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("12_3gqde")
+volume_db = -10.0
+pitch_scale = 1.46
+
+[connection signal="value_changed" from="CanvasLayer/Health/HealthBar" to="." method="_on_health_bar_value_changed"]

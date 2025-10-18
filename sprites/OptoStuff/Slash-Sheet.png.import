@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://code8p7yb0wd5"
-path="res://.godot/imported/opto.png-50e2ce80bb87d7e0b57f25c769c99e6c.ctex"
+uid="uid://c4koawg1bxctl"
+path="res://.godot/imported/Slash-Sheet.png-fb9776184379d7630bfddc5dfd3022d8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/opto.png"
-dest_files=["res://.godot/imported/opto.png-50e2ce80bb87d7e0b57f25c769c99e6c.ctex"]
+source_file="res://sprites/OptoStuff/Slash-Sheet.png"
+dest_files=["res://.godot/imported/Slash-Sheet.png-fb9776184379d7630bfddc5dfd3022d8.ctex"]
 
 [params]
 

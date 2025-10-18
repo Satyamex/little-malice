@@ -4,11 +4,35 @@ extends CharacterBody2D
 @onready var player_sprite: Sprite2D = $player_sprite
 @onready var walk_particles: GPUParticles2D = $Particles/walk_particles
 @onready var dash_particles: GPUParticles2D = $Particles/dash_particles
+@onready var health_bar: TextureProgressBar = $CanvasLayer/Health/HealthBar
 
+@onready var top_limit: Marker2D = $"../cam_limits/top_limit"
+@onready var down_limit: Marker2D = $"../cam_limits/down_limit"
+@onready var left_limit: Marker2D = $"../cam_limits/left_limit"
+@onready var right_limit: Marker2D = $"../cam_limits/right_limit"
+
+
+@onready var cam: Camera2D = $Cam
+
+@export var max_health: int = 5
 @export var speed: int = 80
 @export var dash_speed: int = speed * 3
 @export var dash_duration: float = 0.15
 @export var dash_cooldown: float = 1.4
+
+var health_tween: Tween
+
+var cur_health: int:
+	set(new_val):
+		if cur_health != new_val:
+			cur_health = new_val
+			cur_health = clampi(cur_health, 0, max_health)
+			if health_tween and health_tween.is_running():
+				health_tween.stop()
+			health_tween = create_tween()
+			health_tween.tween_property(health_bar,"value",cur_health,.25).set_trans(Tween.TRANS_CUBIC)
+			#health_bar.value = cur_health
+			
 
 var dashing: bool = false
 var dash_timer: float = 0.0
@@ -16,6 +40,13 @@ var dashed: bool = false
 var direction: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
+	cam.limit_top = int(top_limit.global_position.y)
+	cam.limit_bottom = int(down_limit.global_position.y)
+	cam.limit_left = int(left_limit.global_position.x)
+	cam.limit_right = int(right_limit.global_position.x)
+	
+	cur_health = max_health
+	health_bar.max_value = max_health
 	dash_particles.visible = false
 	walk_particles.visible = false
 	dash_particles.one_shot = true
@@ -35,7 +66,6 @@ func _process(_delta: float) -> void:
 			dashed = true
 			
 			dash_particles.process_material.set("direction", Vector3(-direction.x, -direction.y, 0))
-			print(dash_particles.process_material.get("direction"))
 			dash_timer = dash_duration
 			replenish_dash()
 			dash_particles.emitting = true
@@ -66,6 +96,18 @@ func _physics_process(_delta: float) -> void:
 			self.velocity = self.velocity.lerp(Vector2.ZERO, _delta * 100)
 	move_and_slide()
 
+func take_damage(damage):
+	cur_health -= damage
+	player_sprite.material.set("shader_parameter/active", true)
+	await get_tree().create_timer(.1).timeout
+	player_sprite.material.set("shader_parameter/active", false)
+
+
 func replenish_dash() -> void:
 	await get_tree().create_timer(dash_cooldown).timeout
 	dashed = false
+
+
+func _on_health_bar_value_changed(value: float) -> void:
+	if value <= 0:
+		print('you died')

@@ -1,11 +1,57 @@
-[gd_scene load_steps=7 format=3 uid="uid://bj650jel8uh1h"]
+[gd_scene load_steps=18 format=3 uid="uid://bj650jel8uh1h"]
 
-[ext_resource type="Texture2D" uid="uid://hciomk547426" path="res://sprites/TurtleEnemy.png" id="1_hcapj"]
+[ext_resource type="Texture2D" uid="uid://hciomk547426" path="res://sprites/TurtleStuff/TurtleEnemy.png" id="1_hcapj"]
 [ext_resource type="Script" uid="uid://ctvxru6yttdl4" path="res://prefab_scripts/turtle_enemy.gd" id="1_opkcm"]
 [ext_resource type="PackedScene" uid="uid://cgjrofl74ryu6" path="res://prefab_scenes/blood_particles.tscn" id="2_yrpo8"]
+[ext_resource type="Shader" uid="uid://oy564plwbvo0" path="res://shaders/Flash.gdshader" id="3_xjo6i"]
+[ext_resource type="Script" uid="uid://iutlrcsufbol" path="res://prefab_scripts/enemy_attack_controller.gd" id="4_xjo6i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hcapj"]
-radius = 23.0
+radius = 28.0
+
+[sub_resource type="Curve" id="Curve_cuqkh"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0.0054054037, 20.224731), 0.0, 0.0, 0, 0, Vector2(1, 52.58429), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2wo5b"]
+curve = SubResource("Curve_cuqkh")
+
+[sub_resource type="Curve" id="Curve_ivvs6"]
+_limits = [0.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.27567568, 28.08989), 0.0, 0.0, 0, 0, Vector2(0.772973, 38.202248), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_cuqkh"]
+curve = SubResource("Curve_ivvs6")
+
+[sub_resource type="Curve" id="Curve_behsp"]
+_data = [Vector2(0, 0.50561804), 0.0, 0.0, 0, 0, Vector2(0.34054056, 1), 0.0, 0.0, 0, 0, Vector2(0.6810811, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_o886c"]
+curve = SubResource("Curve_behsp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ivvs6"]
+particle_flag_disable_z = true
+spread = 20.0
+initial_velocity_min = 137.95
+initial_velocity_max = 160.9
+angular_velocity_min = -5.000016
+angular_velocity_max = 4.999984
+angular_velocity_curve = SubResource("CurveTexture_2wo5b")
+gravity = Vector3(0, 98, 0)
+damping_min = 5.0
+damping_max = 10.0
+damping_curve = SubResource("CurveTexture_cuqkh")
+scale_min = 4.0
+scale_max = 12.0
+scale_curve = SubResource("CurveTexture_o886c")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ivvs6"]
+shader = ExtResource("3_xjo6i")
+shader_parameter/active = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Gradient" id="Gradient_yrpo8"]
 interpolation_mode = 1
@@ -20,6 +66,9 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 1)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ivvs6"]
+radius = 62.008064
+
 [node name="turtle_enemy" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_opkcm")
 blood_particles = ExtResource("2_yrpo8")
@@ -29,12 +78,44 @@ position = Vector2(0, 9)
 shape = SubResource("CircleShape2D_hcapj")
 debug_color = Color(1, 1, 1, 0.41960785)
 
+[node name="enemy_attack_controller" type="Node" parent="."]
+script = ExtResource("4_xjo6i")
+
+[node name="Particles" type="Node2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, 9)
+
+[node name="Water" type="GPUParticles2D" parent="Particles"]
+modulate = Color(0, 2.0418816, 2.852427, 1)
+show_behind_parent = true
+position = Vector2(0, 4)
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 0.65
+process_material = SubResource("ParticleProcessMaterial_ivvs6")
+
 [node name="sprite" type="Sprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(3, 3)
+material = SubResource("ShaderMaterial_ivvs6")
+scale = Vector2(4, 4)
 texture = ExtResource("1_hcapj")
 
 [node name="Shadow" type="Sprite2D" parent="sprite"]
 show_behind_parent = true
 position = Vector2(0, 7.333333)
 texture = SubResource("GradientTexture2D_yrpo8")
+
+[node name="attack_cooldown" type="Timer" parent="."]
+
+[node name="AttackRange" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+position = Vector2(0, 9)
+shape = SubResource("CircleShape2D_ivvs6")
+
+[connection signal="timeout" from="attack_cooldown" to="enemy_attack_controller" method="_on_attack_cooldown_timeout"]
+[connection signal="body_entered" from="AttackRange" to="enemy_attack_controller" method="_on_attack_range_body_entered"]
+[connection signal="body_exited" from="AttackRange" to="enemy_attack_controller" method="_on_attack_range_body_exited"]

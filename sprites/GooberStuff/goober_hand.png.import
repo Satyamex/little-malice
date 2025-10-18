@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://xkmq70r7km00"
-path="res://.godot/imported/goober_hand.png-24469a6f4cf6aef00da53d9b8e996060.ctex"
+path="res://.godot/imported/goober_hand.png-e2556e43329b23d6409b0687621a8142.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/goober_hand.png"
-dest_files=["res://.godot/imported/goober_hand.png-24469a6f4cf6aef00da53d9b8e996060.ctex"]
+source_file="res://sprites/GooberStuff/goober_hand.png"
+dest_files=["res://.godot/imported/goober_hand.png-e2556e43329b23d6409b0687621a8142.ctex"]
 
 [params]
 

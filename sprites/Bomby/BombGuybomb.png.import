@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btjfgk3gi1buq"
-path="res://.godot/imported/goober.png-eb3a30f8d21663992a5a793e9fdc5076.ctex"
+uid="uid://bp1gvjk5pe5ay"
+path="res://.godot/imported/BombGuybomb.png-4a22a9e46d7212c165da7a774f2da449.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/goober.png"
-dest_files=["res://.godot/imported/goober.png-eb3a30f8d21663992a5a793e9fdc5076.ctex"]
+source_file="res://sprites/Bomby/BombGuybomb.png"
+dest_files=["res://.godot/imported/BombGuybomb.png-4a22a9e46d7212c165da7a774f2da449.ctex"]
 
 [params]
 

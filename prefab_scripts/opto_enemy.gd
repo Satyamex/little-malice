@@ -2,8 +2,12 @@ extends CharacterBody2D
 
 @onready var sprite: Sprite2D = $sprite
 @onready var collider: CollisionShape2D = $collider
+@onready var left_slash: AnimatedSprite2D = $LeftSlash
+@onready var right_slash: AnimatedSprite2D = $RightSlash
 
 @export var speed: int = 40
+## damage dealt by this enemy in 1 attack
+@export var attack_power: int = 1
 @export var health: int = 115
 @export var blood_particles: PackedScene
 
@@ -32,8 +36,24 @@ func _process(_delta: float) -> void:
 	if health <= 0:
 		die()
 
+func attack():
+	left_slash.flip_h = false
+	right_slash.flip_h = true
+	if player.global_position.x < self.global_position.x:
+		if player.global_position.y < self.global_position.y:
+			left_slash.flip_h = true
+		left_slash.play("Slash")
+	else:
+		if player.global_position.y < self.global_position.y:
+			right_slash.flip_h = false
+		right_slash.play("Slash")
+	player.take_damage(attack_power)
+
 func take_damage(damage: int):
 	health -= damage
+	sprite.material.set("shader_parameter/active", true)
+	await get_tree().create_timer(.1).timeout
+	sprite.material.set("shader_parameter/active", false)
 
 func die():
 	sprite.visible = false

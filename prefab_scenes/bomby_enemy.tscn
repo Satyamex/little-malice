@@ -1,0 +1,83 @@
+[gd_scene load_steps=12 format=3 uid="uid://uu4q5cgi3tpp"]
+
+[ext_resource type="Script" uid="uid://00iuhwwms0ag" path="res://prefab_scripts/bomby_enemy.gd" id="1_2r7hm"]
+[ext_resource type="PackedScene" uid="uid://cgjrofl74ryu6" path="res://prefab_scenes/blood_particles.tscn" id="2_vir8w"]
+[ext_resource type="Texture2D" uid="uid://4f1lrjqik78v" path="res://sprites/Bomby/BombGuyBody.png" id="2_y7a5o"]
+[ext_resource type="Shader" uid="uid://oy564plwbvo0" path="res://shaders/Flash.gdshader" id="3_3i5pd"]
+[ext_resource type="Texture2D" uid="uid://cxdektqc8ov4g" path="res://sprites/Bomby/BombGuyHands.png" id="3_y7a5o"]
+[ext_resource type="Script" uid="uid://iutlrcsufbol" path="res://prefab_scripts/enemy_attack_controller.gd" id="4_x6x0r"]
+[ext_resource type="Texture2D" uid="uid://bp1gvjk5pe5ay" path="res://sprites/Bomby/BombGuybomb.png" id="6_2giiq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y7a5o"]
+radius = 24.0
+height = 96.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2giiq"]
+shader = ExtResource("3_3i5pd")
+shader_parameter/active = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vir8w"]
+shader = ExtResource("3_3i5pd")
+shader_parameter/active = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x6x0r"]
+radius = 448.0714
+
+[node name="bomby_enemy" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_2r7hm")
+health = 20
+blood_particles = ExtResource("2_vir8w")
+
+[node name="enemy_attack_controller" type="Node" parent="."]
+script = ExtResource("4_x6x0r")
+
+[node name="collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, -32)
+shape = SubResource("CapsuleShape2D_y7a5o")
+
+[node name="Sprites" type="Node2D" parent="."]
+position = Vector2(8, 0)
+scale = Vector2(4, 4)
+
+[node name="body_sprite" type="Sprite2D" parent="Sprites"]
+material = SubResource("ShaderMaterial_2giiq")
+position = Vector2(0, -8)
+texture = ExtResource("2_y7a5o")
+
+[node name="hand_anchor" type="Node2D" parent="Sprites"]
+position = Vector2(2, 0)
+scale = Vector2(0.25, 0.25)
+
+[node name="hand_sprite" type="Sprite2D" parent="Sprites/hand_anchor"]
+material = SubResource("ShaderMaterial_vir8w")
+position = Vector2(-8, -32)
+scale = Vector2(5, 5)
+texture = ExtResource("3_y7a5o")
+
+[node name="bomb_spawnpos" type="Marker2D" parent="Sprites/hand_anchor/hand_sprite"]
+position = Vector2(5.3999996, 3.6)
+scale = Vector2(0.19999999, 0.19999999)
+
+[node name="BombSprite" type="Sprite2D" parent="Sprites/hand_anchor"]
+show_behind_parent = true
+position = Vector2(19, -14)
+scale = Vector2(4, 4)
+texture = ExtResource("6_2giiq")
+
+[node name="attack_cooldown" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="bombs_container" type="Node2D" parent="."]
+
+[node name="AttackRange" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+shape = SubResource("CircleShape2D_x6x0r")
+
+[connection signal="timeout" from="attack_cooldown" to="enemy_attack_controller" method="_on_attack_cooldown_timeout"]
+[connection signal="body_entered" from="AttackRange" to="enemy_attack_controller" method="_on_attack_range_body_entered"]
+[connection signal="body_exited" from="AttackRange" to="enemy_attack_controller" method="_on_attack_range_body_exited"]
