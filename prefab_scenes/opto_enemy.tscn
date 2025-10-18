@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://cl2wdo72f6hyr"]
+
+[ext_resource type="Script" uid="uid://dhbg1mt12n8rb" path="res://prefab_scripts/opto_enemy.gd" id="1_76jjs"]
+[ext_resource type="Texture2D" uid="uid://code8p7yb0wd5" path="res://sprites/opto.png" id="1_fq7gb"]
+[ext_resource type="PackedScene" uid="uid://d1n1exeijr144" path="res://prefab_scenes/blood_particles_big.tscn" id="2_po807"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_76jjs"]
+radius = 135.01482
+
+[node name="opto_enemy" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_76jjs")
+blood_particles = ExtResource("2_po807")
+
+[node name="collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_76jjs")
+debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="sprite" type="Sprite2D" parent="."]
+scale = Vector2(5, 5)
+texture = ExtResource("1_fq7gb")

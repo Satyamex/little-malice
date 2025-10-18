@@ -32,6 +32,6 @@ texture = ExtResource("3_isuvx")
 [node name="PointLight2D" type="PointLight2D" parent="."]
 energy = 0.16
 texture = ExtResource("4_vfyxe")
-texture_scale = 0.3
+texture_scale = 0.6
 
 [connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]

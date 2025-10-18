@@ -2,9 +2,11 @@ extends CharacterBody2D
 
 @onready var sprite: Sprite2D = $sprite
 @onready var collider: CollisionShape2D = $collider
+@onready var gun_sprite: Sprite2D = $gun_anchor/gun_sprite
+@onready var gun_anchor: Node2D = $gun_anchor
 
-@export var speed: int = 80
-@export var health: int = 2
+@export var speed: int = 30
+@export var health: int = 15
 @export var blood_particles: PackedScene
 
 var player: CharacterBody2D
@@ -18,7 +20,7 @@ func _physics_process(_delta: float) -> void:
 	if not player or died:
 		return
 	direction = player.position - self.position
-	if direction.length() > 40:
+	if direction.length() > 100:
 		velocity = direction.normalized() * speed
 		move_and_slide()
 
@@ -27,10 +29,13 @@ func _process(_delta: float) -> void:
 		return
 	if player.position.x < position.x:
 		sprite.flip_h = true
+		gun_sprite.flip_v = true
 	else:
 		sprite.flip_h = false
+		gun_sprite.flip_v = false
 	if health <= 0:
 		die()
+	gun_anchor.look_at(player.position)
 
 func take_damage(damage: int):
 	health -= damage
@@ -38,6 +43,7 @@ func take_damage(damage: int):
 func die():
 	sprite.visible = false
 	collider.disabled = true
+	gun_sprite.visible = false
 	var blood = blood_particles.instantiate()
 	add_child(blood)
 	blood.global_position = global_position

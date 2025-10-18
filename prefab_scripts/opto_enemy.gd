@@ -3,8 +3,8 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $sprite
 @onready var collider: CollisionShape2D = $collider
 
-@export var speed: int = 80
-@export var health: int = 2
+@export var speed: int = 40
+@export var health: int = 115
 @export var blood_particles: PackedScene
 
 var player: CharacterBody2D
@@ -18,7 +18,7 @@ func _physics_process(_delta: float) -> void:
 	if not player or died:
 		return
 	direction = player.position - self.position
-	if direction.length() > 40:
+	if direction.length() > 160:
 		velocity = direction.normalized() * speed
 		move_and_slide()
 

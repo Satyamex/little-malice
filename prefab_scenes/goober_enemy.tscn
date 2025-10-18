@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://6ig08sr3j536"]
+
+[ext_resource type="Texture2D" uid="uid://btjfgk3gi1buq" path="res://sprites/goober.png" id="1_6pvml"]
+[ext_resource type="Script" uid="uid://04n4mfv203w1" path="res://prefab_scripts/goober_enemy.gd" id="1_rmktn"]
+[ext_resource type="PackedScene" uid="uid://cgjrofl74ryu6" path="res://prefab_scenes/blood_particles.tscn" id="2_7hhug"]
+[ext_resource type="Texture2D" uid="uid://xkmq70r7km00" path="res://sprites/goober_hand.png" id="4_m50gy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rmktn"]
+radius = 39.812057
+
+[node name="goober_enemy" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_rmktn")
+blood_particles = ExtResource("2_7hhug")
+
+[node name="collider" type="CollisionShape2D" parent="."]
+position = Vector2(-8, 9)
+shape = SubResource("CircleShape2D_rmktn")
+debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="sprite" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = ExtResource("1_6pvml")
+
+[node name="gun_anchor" type="Node2D" parent="."]
+
+[node name="gun_sprite" type="Sprite2D" parent="gun_anchor"]
+scale = Vector2(5, 5)
+texture = ExtResource("4_m50gy")

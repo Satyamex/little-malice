@@ -7,13 +7,13 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_hcapj"]
 radius = 23.0
 
-[sub_resource type="Gradient" id="Gradient_vgixw"]
+[sub_resource type="Gradient" id="Gradient_yrpo8"]
 interpolation_mode = 1
 offsets = PackedFloat32Array(0.019704433, 0.4827586, 0.71428573)
 colors = PackedColorArray(0, 0, 0, 0.43137255, 0, 0, 0, 0.09803922, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_yrpo8"]
-gradient = SubResource("Gradient_vgixw")
+gradient = SubResource("Gradient_yrpo8")
 width = 24
 height = 12
 fill = 1
