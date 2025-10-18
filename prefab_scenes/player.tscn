@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://b512cc8qhxk21"]
+[gd_scene load_steps=50 format=3 uid="uid://b512cc8qhxk21"]
 
 [ext_resource type="Script" uid="uid://c8xj0bvphbc6d" path="res://prefab_scripts/player.gd" id="1_t3daw"]
 [ext_resource type="Texture2D" uid="uid://betlhm46gl1oh" path="res://sprites/PlayerStuff/player.png" id="1_xo1h1"]
@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://dvc0h367jayqu" path="res://sprites/PlayerStuff/PlayerHealth2.png" id="9_21gda"]
 [ext_resource type="Texture2D" uid="uid://l7ta3ckio6hl" path="res://sprites/PlayerStuff/PlayerHealth1.png" id="9_d0ayv"]
 [ext_resource type="AudioStream" uid="uid://cdrnwmhw1y27" path="res://Sfx/gunshot.wav" id="12_3gqde"]
+[ext_resource type="Texture2D" uid="uid://cfuq3by5jr6ts" path="res://sprites/Skull1.png" id="12_dhcr4"]
+[ext_resource type="FontFile" uid="uid://bgw2u4018lupq" path="res://fonts/PressStart2P-Regular.ttf" id="13_5g5dp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lsfiu"]
 radius = 16.0
@@ -542,18 +544,44 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/Health"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 48.0
-offset_bottom = 44.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 2.0
+anchor_bottom = 1.8000001
+offset_left = -4.0
+offset_top = -4.0
+offset_right = -32.0
+offset_bottom = -28.0
 scale = Vector2(2, 2)
-max_value = 5.0
+max_value = 10.0
 step = 0.1
 value = 5.0
 fill_mode = 3
 texture_under = ExtResource("9_21gda")
 texture_progress = ExtResource("9_d0ayv")
+
+[node name="skull_texture" type="TextureRect" parent="CanvasLayer/Health"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 2.2250001
+anchor_top = 0.3
+anchor_right = 3.65
+anchor_bottom = 1.8500001
+texture = ExtResource("12_dhcr4")
+
+[node name="killcoount_text" type="Label" parent="CanvasLayer/Health"]
+layout_mode = 0
+offset_left = 148.0
+offset_top = 30.0
+offset_right = 188.0
+offset_bottom = 53.0
+theme_override_fonts/font = ExtResource("13_5g5dp")
+theme_override_font_sizes/font_size = 40
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Bullets_container" type="Node2D" parent="."]
 

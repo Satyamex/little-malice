@@ -11,7 +11,6 @@ const slime_bullet_sprite = preload("uid://hmxj5jbepehq")
 @onready var muzzle_flash_particles: GPUParticles2D = $Particles/muzzle_flash_particles
 @onready var bullet_container: Node2D = $bullet_container
 
-
 @export var speed: int = 30
 @export var projectile_speed: int = 450
 @export var health: int = 15
@@ -75,6 +74,8 @@ func take_damage(damage: int):
 	sprite.material.set("shader_parameter/active", false)
 
 func die():
+	player.cur_health += 2
+	player.killcount += 1
 	sprite.visible = false
 	collider.disabled = true
 	gun_sprite.visible = false

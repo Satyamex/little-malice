@@ -4,10 +4,10 @@ extends CharacterBody2D
 @onready var collider: CollisionShape2D = $collider
 @onready var water_particles: GPUParticles2D = $Particles/Water
 
-@export var speed: int = 80
+@export var speed: int = 120
 @export var health: int = 2
 @export var blood_particles: PackedScene
-@export var attack_power: int = 2
+@export var attack_power: int = 1
 
 var player: CharacterBody2D
 var direction: Vector2
@@ -54,6 +54,8 @@ func take_damage(damage: int):
 	sprite.material.set("shader_parameter/active", false)
 
 func die():
+	player.cur_health += 1
+	player.killcount += 1
 	sprite.visible = false
 	collider.disabled = true
 	var blood = blood_particles.instantiate()

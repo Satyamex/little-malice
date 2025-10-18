@@ -7,7 +7,7 @@ extends CharacterBody2D
 
 @export var speed: int = 40
 ## damage dealt by this enemy in 1 attack
-@export var attack_power: int = 1
+@export var attack_power: int = 2
 @export var health: int = 115
 @export var blood_particles: PackedScene
 
@@ -56,6 +56,8 @@ func take_damage(damage: int):
 	sprite.material.set("shader_parameter/active", false)
 
 func die():
+	player.cur_health += 3
+	player.killcount += 1
 	sprite.visible = false
 	collider.disabled = true
 	var blood = blood_particles.instantiate()

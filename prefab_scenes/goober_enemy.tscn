@@ -87,6 +87,7 @@ radius = 403.2431
 
 [node name="goober_enemy" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_rmktn")
+projectile_speed = 200
 blood_particles = ExtResource("2_7hhug")
 
 [node name="collider" type="CollisionShape2D" parent="."]

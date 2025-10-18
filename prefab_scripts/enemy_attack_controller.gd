@@ -1,10 +1,9 @@
 extends Node
 
-
 @onready var enemy: CharacterBody2D = $".."
 @onready var attack_cooldown_timer: Timer = $"../attack_cooldown"
 
-@export var attack_cooldown_dur: float = 1
+@export var attack_cooldown_dur: float = 1.5
 
 var player_in_range: bool = false:
 	set(new_val):

@@ -5,22 +5,23 @@ extends CharacterBody2D
 @onready var walk_particles: GPUParticles2D = $Particles/walk_particles
 @onready var dash_particles: GPUParticles2D = $Particles/dash_particles
 @onready var health_bar: TextureProgressBar = $CanvasLayer/Health/HealthBar
+@onready var killcount_text: Label = $CanvasLayer/Health/killcoount_text
 
 @onready var top_limit: Marker2D = $"../cam_limits/top_limit"
 @onready var down_limit: Marker2D = $"../cam_limits/down_limit"
 @onready var left_limit: Marker2D = $"../cam_limits/left_limit"
 @onready var right_limit: Marker2D = $"../cam_limits/right_limit"
 
-
 @onready var cam: Camera2D = $Cam
 
-@export var max_health: int = 5
+@export var max_health: int = 10
 @export var speed: int = 80
 @export var dash_speed: int = speed * 3
 @export var dash_duration: float = 0.15
 @export var dash_cooldown: float = 1.4
 
 var health_tween: Tween
+var killcount: int = 0
 
 var cur_health: int:
 	set(new_val):
@@ -32,7 +33,6 @@ var cur_health: int:
 			health_tween = create_tween()
 			health_tween.tween_property(health_bar,"value",cur_health,.25).set_trans(Tween.TRANS_CUBIC)
 			#health_bar.value = cur_health
-			
 
 var dashing: bool = false
 var dash_timer: float = 0.0
@@ -73,6 +73,7 @@ func _process(_delta: float) -> void:
 		dash_timer -= _delta
 		if dash_timer <= 0:
 			dashing = false
+	killcount_text.text = str(killcount)
 
 	if dashing:
 		if direction.x > 0:
@@ -102,11 +103,9 @@ func take_damage(damage):
 	await get_tree().create_timer(.1).timeout
 	player_sprite.material.set("shader_parameter/active", false)
 
-
 func replenish_dash() -> void:
 	await get_tree().create_timer(dash_cooldown).timeout
 	dashed = false
-
 
 func _on_health_bar_value_changed(value: float) -> void:
 	if value <= 0:

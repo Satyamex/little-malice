@@ -13,9 +13,9 @@ const projectile_sprite = preload("uid://bp1gvjk5pe5ay")
 @onready var just_bomb_sprite: Sprite2D = $Sprites/hand_anchor/BombSprite
 
 @export var speed: int = 60
-@export var projectile_speed: int = 300
+@export var projectile_speed: int = 100
 ## damage dealt by this enemy in 1 attack
-@export var attack_power: int = 3
+@export var attack_power: int = 1
 @export var health: int = 30
 @export var blood_particles: PackedScene
 
@@ -83,6 +83,8 @@ func take_damage(damage: int):
 	hand_sprite.material.set("shader_parameter/active", false)
 
 func die():
+	player.cur_health += 1
+	player.killcount += 1
 	sprites.visible = false
 	collider.disabled = true
 	var blood = blood_particles.instantiate()
