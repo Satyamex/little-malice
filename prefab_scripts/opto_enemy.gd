@@ -4,6 +4,8 @@ extends CharacterBody2D
 @onready var collider: CollisionShape2D = $collider
 @onready var left_slash: AnimatedSprite2D = $LeftSlash
 @onready var right_slash: AnimatedSprite2D = $RightSlash
+@onready var death_sfx: AudioStreamPlayer = $sfx/death_sfx
+@onready var opto_anims: AnimationPlayer = $opto_anims
 
 @export var speed: int = 40
 ## damage dealt by this enemy in 1 attack
@@ -16,6 +18,7 @@ var direction: Vector2
 var died: bool = false
 
 func _ready() -> void:
+	sprite.set_material(sprite.get_material().duplicate(true))
 	player = get_tree().get_first_node_in_group("player")
 
 func _physics_process(_delta: float) -> void:
@@ -23,6 +26,8 @@ func _physics_process(_delta: float) -> void:
 		return
 	direction = player.position - self.position
 	if direction.length() > 160:
+		if !opto_anims.is_playing():
+			opto_anims.play("walk")
 		velocity = direction.normalized() * speed
 		move_and_slide()
 
@@ -37,6 +42,8 @@ func _process(_delta: float) -> void:
 		die()
 
 func attack():
+	opto_anims.play("attack")
+	await opto_anims.animation_finished
 	left_slash.flip_h = false
 	right_slash.flip_h = true
 	if player.global_position.x < self.global_position.x:
@@ -56,6 +63,9 @@ func take_damage(damage: int):
 	sprite.material.set("shader_parameter/active", false)
 
 func die():
+	var rand: float = randf_range(-.25,.25)
+	death_sfx.pitch_scale += rand
+	death_sfx.play()
 	player.cur_health += 3
 	player.killcount += 1
 	sprite.visible = false

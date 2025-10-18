@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://uu4q5cgi3tpp"]
+[gd_scene load_steps=19 format=3 uid="uid://uu4q5cgi3tpp"]
 
 [ext_resource type="Script" uid="uid://00iuhwwms0ag" path="res://prefab_scripts/bomby_enemy.gd" id="1_2r7hm"]
 [ext_resource type="PackedScene" uid="uid://cgjrofl74ryu6" path="res://prefab_scenes/blood_particles.tscn" id="2_vir8w"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cxdektqc8ov4g" path="res://sprites/Bomby/BombGuyHands.png" id="3_y7a5o"]
 [ext_resource type="Script" uid="uid://iutlrcsufbol" path="res://prefab_scripts/enemy_attack_controller.gd" id="4_x6x0r"]
 [ext_resource type="Texture2D" uid="uid://bp1gvjk5pe5ay" path="res://sprites/Bomby/BombGuybomb.png" id="6_2giiq"]
+[ext_resource type="AudioStream" uid="uid://dgqi8xf54sc53" path="res://Sfx/EnemyDeath.mp3" id="8_rivyc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y7a5o"]
 radius = 24.0
@@ -17,6 +18,19 @@ shader = ExtResource("3_3i5pd")
 shader_parameter/active = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 
+[sub_resource type="Gradient" id="Gradient_yrpo8"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.019704433, 0.4827586, 0.71428573)
+colors = PackedColorArray(0, 0, 0, 0.43137255, 0, 0, 0, 0.09803922, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rivyc"]
+gradient = SubResource("Gradient_yrpo8")
+width = 32
+height = 18
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vir8w"]
 shader = ExtResource("3_3i5pd")
 shader_parameter/active = false
@@ -24,6 +38,241 @@ shader_parameter/flash_color = Color(1, 1, 1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x6x0r"]
 radius = 448.0714
+
+[sub_resource type="Animation" id="Animation_rivyc"]
+resource_name = "walk"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:skew")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.40000004, 0.6, 0.8, 1, 1.2, 1.4, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.07853982, 0.0, 0.07853982, 0.0, -0.07853982, 0.0, 0.07853982, 0.0, -0.07853982]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4000001, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-5, 0), Vector2(0, -8), Vector2(5, 0), Vector2(0, -8), Vector2(-5, 0), Vector2(0, -8), Vector2(5, 0), Vector2(0, -8), Vector2(-5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4tcyb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprites/hand_anchor:skew")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprites/hand_anchor:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.23, 0.23)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprites/body_sprite:skew")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprites/body_sprite:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-0.25, -8.5)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sprites/body_sprite:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sprites/hand_anchor:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Sprites/hand_anchor:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.75, 0.25)]
+}
+
+[sub_resource type="Animation" id="Animation_q8wvk"]
+resource_name = "attack"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/hand_anchor:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.5333333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.25), Vector2(0.23, 0.23), Vector2(0.25, 0.25)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/hand_anchor:skew")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.5333333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.19373155, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprites/body_sprite:skew")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.40000004, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.2617994, 0.17453292]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprites/body_sprite:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -8), Vector2(-1.75, -8), Vector2(-0.75, -8)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprites/body_sprite:scale")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.40000004, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 1.1), Vector2(1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprites/hand_anchor:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.40000004, 0.53333336),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.29670596, -0.18325958]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sprites/hand_anchor:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.40000004, 0.53333336),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(2, 0), Vector2(1.7881393e-07, 2), Vector2(2.75, 0.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q8wvk"]
+_data = {
+&"RESET": SubResource("Animation_4tcyb"),
+&"attack": SubResource("Animation_q8wvk"),
+&"walk": SubResource("Animation_rivyc")
+}
 
 [node name="bomby_enemy" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_2r7hm")
@@ -43,12 +292,18 @@ scale = Vector2(4, 4)
 
 [node name="body_sprite" type="Sprite2D" parent="Sprites"]
 material = SubResource("ShaderMaterial_2giiq")
-position = Vector2(0, -8)
+position = Vector2(-0.25, -8.5)
 texture = ExtResource("2_y7a5o")
 
+[node name="Shadow" type="Sprite2D" parent="Sprites/body_sprite"]
+show_behind_parent = true
+position = Vector2(-2, 10)
+scale = Vector2(0.75, 0.75)
+texture = SubResource("GradientTexture2D_rivyc")
+
 [node name="hand_anchor" type="Node2D" parent="Sprites"]
-position = Vector2(2, 0)
-scale = Vector2(0.25, 0.25)
+position = Vector2(1.75, 0.25)
+scale = Vector2(0.23, 0.23)
 
 [node name="hand_sprite" type="Sprite2D" parent="Sprites/hand_anchor"]
 material = SubResource("ShaderMaterial_vir8w")
@@ -77,6 +332,16 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
 shape = SubResource("CircleShape2D_x6x0r")
+
+[node name="sfx" type="Node" parent="."]
+
+[node name="death_sfx" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("8_rivyc")
+
+[node name="bomby_player" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_q8wvk")
+}
 
 [connection signal="timeout" from="attack_cooldown" to="enemy_attack_controller" method="_on_attack_cooldown_timeout"]
 [connection signal="body_entered" from="AttackRange" to="enemy_attack_controller" method="_on_attack_range_body_entered"]

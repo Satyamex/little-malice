@@ -9,7 +9,8 @@ var player_in_range: bool = false:
 	set(new_val):
 		if player_in_range != new_val:
 			player_in_range = new_val
-			attack_cooldown_timer.start()
+			if attack_cooldown_timer and !enemy.died:
+				attack_cooldown_timer.start()
 
 func _on_attack_range_body_entered(body: Node2D) -> void:
 	if enemy.player and body == enemy.player:

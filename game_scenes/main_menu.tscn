@@ -1,12 +1,63 @@
-[gd_scene load_steps=6 format=3 uid="uid://bryka53g5csce"]
+[gd_scene load_steps=13 format=3 uid="uid://bryka53g5csce"]
 
 [ext_resource type="Texture2D" uid="uid://bof5hcp8la0ii" path="res://sprites/Capture.PNG" id="1_2a3y8"]
 [ext_resource type="Script" uid="uid://dnv5bcsdit3h8" path="res://game_scripts/main_menu.gd" id="1_ogugf"]
 [ext_resource type="Texture2D" uid="uid://bt7cipi7l4meg" path="res://sprites/paper.png" id="2_2a3y8"]
 [ext_resource type="FontFile" uid="uid://bgw2u4018lupq" path="res://fonts/PressStart2P-Regular.ttf" id="3_up4rn"]
+[ext_resource type="AudioStream" uid="uid://c448gokmt122j" path="res://Sfx/hover.wav" id="5_gwcy4"]
+[ext_resource type="AudioStream" uid="uid://d2xndcxf4l5ra" path="res://Sfx/JDSherbert - Ultimate UI SFX Pack - Select - 2.mp3" id="6_6820e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_up4rn"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Animation" id="Animation_6820e"]
+resource_name = "Transition"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TransitionRect:texture:fill_to")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(80, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pg84b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TransitionRect:texture:fill_to")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pg84b"]
+_data = {
+&"RESET": SubResource("Animation_pg84b"),
+&"TransitionStart": SubResource("Animation_6820e")
+}
+
+[sub_resource type="Gradient" id="Gradient_6820e"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.009852217)
+colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pg84b"]
+gradient = SubResource("Gradient_6820e")
+width = 124
+height = 124
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
 
 [node name="main_menu" type="Control"]
 layout_mode = 3
@@ -115,6 +166,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_up4rn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_up4rn")
 text = "QUIT"
 
@@ -131,6 +183,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_up4rn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_up4rn")
 text = "ABOUT"
 
@@ -147,6 +200,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_up4rn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_up4rn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_up4rn")
 text = "PLAY
 "
@@ -154,6 +208,30 @@ text = "PLAY
 [node name="bg_music" type="AudioStreamPlayer" parent="."]
 volume_db = 10.0
 
+[node name="Hover_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_gwcy4")
+volume_db = -10.0
+
+[node name="click_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_6820e")
+volume_db = -10.0
+
+[node name="transition_anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_pg84b")
+}
+autoplay = "TransitionStart"
+
+[node name="TransitionRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 420.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_pg84b")
+
+[connection signal="mouse_entered" from="button_container/quit_button" to="." method="_on_quit_button_mouse_entered"]
 [connection signal="pressed" from="button_container/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="mouse_entered" from="button_container/about_button" to="." method="_on_about_button_mouse_entered"]
 [connection signal="pressed" from="button_container/about_button" to="." method="_on_about_button_pressed"]
+[connection signal="mouse_entered" from="button_container/play_button" to="." method="_on_play_button_mouse_entered"]
 [connection signal="pressed" from="button_container/play_button" to="." method="_on_play_button_pressed"]

@@ -1,10 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://bj650jel8uh1h"]
+[gd_scene load_steps=23 format=3 uid="uid://bj650jel8uh1h"]
 
 [ext_resource type="Texture2D" uid="uid://hciomk547426" path="res://sprites/TurtleStuff/TurtleEnemy.png" id="1_hcapj"]
 [ext_resource type="Script" uid="uid://ctvxru6yttdl4" path="res://prefab_scripts/turtle_enemy.gd" id="1_opkcm"]
 [ext_resource type="PackedScene" uid="uid://cgjrofl74ryu6" path="res://prefab_scenes/blood_particles.tscn" id="2_yrpo8"]
-[ext_resource type="Shader" uid="uid://oy564plwbvo0" path="res://shaders/Flash.gdshader" id="3_xjo6i"]
 [ext_resource type="Script" uid="uid://iutlrcsufbol" path="res://prefab_scripts/enemy_attack_controller.gd" id="4_xjo6i"]
+[ext_resource type="AudioStream" uid="uid://dgqi8xf54sc53" path="res://Sfx/EnemyDeath.mp3" id="5_ivvs6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hcapj"]
 radius = 28.0
@@ -48,8 +48,24 @@ scale_min = 4.0
 scale_max = 12.0
 scale_curve = SubResource("CurveTexture_o886c")
 
+[sub_resource type="Shader" id="Shader_xjo6i"]
+code = "shader_type canvas_item;
+
+uniform bool active;
+uniform vec3 flash_color : source_color = vec3(1.0);
+
+
+void fragment(){
+	vec4 t = texture(TEXTURE, UV);
+	if (active == true) {
+		COLOR = vec4(flash_color, t.a);
+	}
+	
+}"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ivvs6"]
-shader = ExtResource("3_xjo6i")
+resource_local_to_scene = true
+shader = SubResource("Shader_xjo6i")
 shader_parameter/active = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 
@@ -69,12 +85,115 @@ fill_to = Vector2(1, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_ivvs6"]
 radius = 62.008064
 
+[sub_resource type="Animation" id="Animation_ivvs6"]
+resource_name = "walk"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:skew")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.40000004, 0.6, 0.8, 1, 1.2, 1.4, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.07853982, 0.0, 0.07853982, 0.0, -0.07853982, 0.0, 0.07853982, 0.0, -0.07853982]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4000001, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-5, 0), Vector2(0, -8), Vector2(5, 0), Vector2(0, -8), Vector2(-5, 0), Vector2(0, -8), Vector2(5, 0), Vector2(0, -8), Vector2(-5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cuqkh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2wo5b"]
+resource_name = "attacl"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:skew")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.20943952, 0.20943952]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -1.955)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2wo5b"]
+_data = {
+&"RESET": SubResource("Animation_cuqkh"),
+&"attack": SubResource("Animation_2wo5b"),
+&"walk": SubResource("Animation_ivvs6")
+}
+
 [node name="turtle_enemy" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_opkcm")
 blood_particles = ExtResource("2_yrpo8")
 
 [node name="collider" type="CollisionShape2D" parent="."]
-position = Vector2(0, 9)
 shape = SubResource("CircleShape2D_hcapj")
 debug_color = Color(1, 1, 1, 0.41960785)
 
@@ -100,6 +219,7 @@ texture_filter = 1
 material = SubResource("ShaderMaterial_ivvs6")
 scale = Vector2(4, 4)
 texture = ExtResource("1_hcapj")
+offset = Vector2(0, -1.955)
 
 [node name="Shadow" type="Sprite2D" parent="sprite"]
 show_behind_parent = true
@@ -113,8 +233,17 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
-position = Vector2(0, 9)
 shape = SubResource("CircleShape2D_ivvs6")
+
+[node name="sfx" type="Node" parent="."]
+
+[node name="death_sfx" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("5_ivvs6")
+
+[node name="turtle_anims" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_2wo5b")
+}
 
 [connection signal="timeout" from="attack_cooldown" to="enemy_attack_controller" method="_on_attack_cooldown_timeout"]
 [connection signal="body_entered" from="AttackRange" to="enemy_attack_controller" method="_on_attack_range_body_entered"]

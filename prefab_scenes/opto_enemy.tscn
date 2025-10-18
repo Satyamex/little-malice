@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cl2wdo72f6hyr"]
+[gd_scene load_steps=23 format=3 uid="uid://cl2wdo72f6hyr"]
 
 [ext_resource type="Script" uid="uid://dhbg1mt12n8rb" path="res://prefab_scripts/opto_enemy.gd" id="1_76jjs"]
 [ext_resource type="Texture2D" uid="uid://code8p7yb0wd5" path="res://sprites/OptoStuff/opto.png" id="1_fq7gb"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d1n1exeijr144" path="res://prefab_scenes/blood_particles_big.tscn" id="2_po807"]
 [ext_resource type="Texture2D" uid="uid://c4koawg1bxctl" path="res://sprites/OptoStuff/Slash-Sheet.png" id="4_0fpvv"]
 [ext_resource type="Script" uid="uid://iutlrcsufbol" path="res://prefab_scripts/enemy_attack_controller.gd" id="5_oloc3"]
+[ext_resource type="AudioStream" uid="uid://dgqi8xf54sc53" path="res://Sfx/EnemyDeath.mp3" id="7_afyn6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_76jjs"]
 radius = 112.0714
@@ -15,13 +16,13 @@ shader = ExtResource("1_j44sc")
 shader_parameter/active = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 
-[sub_resource type="Gradient" id="Gradient_yrpo8"]
+[sub_resource type="Gradient" id="Gradient_afyn6"]
 interpolation_mode = 1
 offsets = PackedFloat32Array(0.019704433, 0.4827586, 0.71428573)
 colors = PackedColorArray(0, 0, 0, 0.43137255, 0, 0, 0, 0.09803922, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_po807"]
-gradient = SubResource("Gradient_yrpo8")
+gradient = SubResource("Gradient_afyn6")
 width = 86
 height = 32
 fill = 1
@@ -80,9 +81,111 @@ animations = [{
 radius = 144.0
 height = 336.0
 
+[sub_resource type="Animation" id="Animation_afyn6"]
+resource_name = "walk"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:skew")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.40000004, 0.6, 0.8, 1, 1.2, 1.4, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.07853982, 0.0, 0.07853982, 0.0, -0.07853982, 0.0, 0.07853982, 0.0, -0.07853982]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.40000004, 0.6, 0.8, 1, 1.2, 1.4000001, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(4, 4), Vector2(3.5, 4), Vector2(3, 3.5), Vector2(3.5, 4), Vector2(4, 4), Vector2(3.5, 4), Vector2(3, 3.5), Vector2(3.5, 4), Vector2(4, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_f5fxq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4, 4)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -31.999998)]
+}
+
+[sub_resource type="Animation" id="Animation_fpi08"]
+resource_name = "attack"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.20000002, 0.6, 0.73333323, 0.8333333, 0.93333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(4, 4), Vector2(3, 4.5), Vector2(2.5, 5), Vector2(4, 4), Vector2(4.5, 3.5), Vector2(4, 4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.7333333, 0.8333333, 0.9333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -31.999998), Vector2(0, 0), Vector2(0, 16), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f5fxq"]
+_data = {
+&"RESET": SubResource("Animation_f5fxq"),
+&"attack": SubResource("Animation_fpi08"),
+&"walk": SubResource("Animation_afyn6")
+}
+
 [node name="opto_enemy" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_76jjs")
-attack_power = 2
 blood_particles = ExtResource("2_po807")
 
 [node name="enemy_attack_controller" type="Node" parent="."]
@@ -94,7 +197,8 @@ debug_color = Color(1, 1, 1, 0.41960785)
 
 [node name="sprite" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_j44sc")
-scale = Vector2(5, 5)
+position = Vector2(0, -31.999998)
+scale = Vector2(4, 4)
 texture = ExtResource("1_fq7gb")
 
 [node name="Shadow" type="Sprite2D" parent="sprite"]
@@ -129,6 +233,16 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_oloc3")
 
 [node name="attack_cooldown" type="Timer" parent="."]
+
+[node name="sfx" type="Node" parent="."]
+
+[node name="death_sfx" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("7_afyn6")
+
+[node name="opto_anims" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_f5fxq")
+}
 
 [connection signal="body_entered" from="AttackRange" to="enemy_attack_controller" method="_on_attack_range_body_entered"]
 [connection signal="body_exited" from="AttackRange" to="enemy_attack_controller" method="_on_attack_range_body_exited"]

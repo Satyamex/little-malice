@@ -3,6 +3,8 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $sprite
 @onready var collider: CollisionShape2D = $collider
 @onready var water_particles: GPUParticles2D = $Particles/Water
+@onready var death_sfx: AudioStreamPlayer = $sfx/death_sfx
+@onready var turtle_anims: AnimationPlayer = $turtle_anims
 
 @export var speed: int = 120
 @export var health: int = 2
@@ -20,6 +22,7 @@ var sprite_facing_right: bool = true:
 		sprite_facing_right = new_val
 
 func _ready() -> void:
+	sprite.set_material(sprite.get_material().duplicate(true))
 	player = get_tree().get_first_node_in_group("player")
 
 func _physics_process(_delta: float) -> void:
@@ -27,6 +30,8 @@ func _physics_process(_delta: float) -> void:
 		return
 	direction = player.position - self.position
 	if direction.length() > 40:
+		if !turtle_anims.is_playing():
+			turtle_anims.play("walk")
 		velocity = direction.normalized() * speed
 		move_and_slide()
 
@@ -41,8 +46,8 @@ func _process(_delta: float) -> void:
 		die()
 
 func attack():
+	turtle_anims.play("attack")
 	var attack_direction = (player.global_position.x - self.global_position.x)
-	print(attack_direction)
 	water_particles.restart()
 	water_particles.process_material.set("direction", Vector3(attack_direction, 0, 0))
 	player.take_damage(attack_power)
@@ -54,6 +59,9 @@ func take_damage(damage: int):
 	sprite.material.set("shader_parameter/active", false)
 
 func die():
+	var rand: float = randf_range(-.25,.25)
+	death_sfx.pitch_scale += rand
+	death_sfx.play()
 	player.cur_health += 1
 	player.killcount += 1
 	sprite.visible = false

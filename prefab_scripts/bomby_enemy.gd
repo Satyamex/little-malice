@@ -11,6 +11,8 @@ const projectile_sprite = preload("uid://bp1gvjk5pe5ay")
 @onready var bombs_container: Node2D = $bombs_container
 @onready var sprites: Node2D = $Sprites
 @onready var just_bomb_sprite: Sprite2D = $Sprites/hand_anchor/BombSprite
+@onready var death_sfx: AudioStreamPlayer = $sfx/death_sfx
+@onready var bomby_player: AnimationPlayer = $bomby_player
 
 @export var speed: int = 60
 @export var projectile_speed: int = 100
@@ -30,6 +32,8 @@ var sprite_facing_right: bool = true:
 		sprite_facing_right = new_val
 
 func _ready() -> void:
+	body_sprite.set_material(body_sprite.get_material().duplicate(true))
+	hand_sprite.set_material(hand_sprite.get_material().duplicate(true))
 	player = get_tree().get_first_node_in_group("player")
 
 func _physics_process(_delta: float) -> void:
@@ -37,6 +41,8 @@ func _physics_process(_delta: float) -> void:
 		return
 	direction = player.position - self.position
 	if direction.length() > 160:
+		if !bomby_player.is_playing():
+			bomby_player.play("walk")
 		velocity = direction.normalized() * speed
 		move_and_slide()
 
@@ -52,6 +58,8 @@ func _process(_delta: float) -> void:
 		die()
 
 func attack():
+	bomby_player.play("attack")
+	await bomby_player.animation_finished
 	just_bomb_sprite.visible = false
 	var attack_direction = (player.global_position - bomb_spawnpos.global_position)
 	var bomb = projectile_tscn.instantiate()
@@ -83,6 +91,9 @@ func take_damage(damage: int):
 	hand_sprite.material.set("shader_parameter/active", false)
 
 func die():
+	var rand: float = randf_range(-.25,.25)
+	death_sfx.pitch_scale += rand
+	death_sfx.play()
 	player.cur_health += 1
 	player.killcount += 1
 	sprites.visible = false

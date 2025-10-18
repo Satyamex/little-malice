@@ -11,10 +11,12 @@ extends Node
 
 var shoot_cooldown: float
 var can_shoot: bool = true
+var og_pitch_scale: float 
 
 @export var player_bullet: PackedScene
 
 func _ready() -> void:
+	og_pitch_scale = gun_sfx.pitch_scale
 	shoot_cooldown = muzzle_flash_particles.lifetime + muzzle_flash_particles.lifetime / 2
 	await get_tree().create_timer(muzzle_flash_particles.lifetime + 0.5).timeout
 	muzzle_flash_particles.emitting = false
@@ -24,11 +26,13 @@ func _process(_delta: float) -> void:
 		shoot_bullet()
 
 func shoot_bullet() -> void:
-	gun_sfx.play()
 	var direction = (gun_cursor_sprite.global_position - bullet_spawnpos.global_position)
 	if direction.length() < 20:
 		return
 	can_shoot = false
+	var rand: float = randf_range(-.25,.25)
+	gun_sfx.pitch_scale += rand
+	gun_sfx.play()
 	gun_anims.play("GunFire")
 	var bullet = player_bullet.instantiate()
 	bullets_container.add_child(bullet)
@@ -41,3 +45,7 @@ func shoot_bullet() -> void:
 		bullet.shoot(direction, player)
 		await get_tree().create_timer(shoot_cooldown).timeout
 		can_shoot = true
+
+
+func _on_gun_sfx_finished() -> void:
+	gun_sfx.pitch_scale = og_pitch_scale

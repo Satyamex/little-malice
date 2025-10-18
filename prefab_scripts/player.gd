@@ -7,6 +7,11 @@ extends CharacterBody2D
 @onready var health_bar: TextureProgressBar = $CanvasLayer/Health/HealthBar
 @onready var killcount_text: Label = $CanvasLayer/Health/killcoount_text
 @onready var stage: Node2D = $".."
+@onready var walk_sfx: AudioStreamPlayer = $Sfx/walk_sfx
+@onready var death_sfx: AudioStreamPlayer = $Sfx/death
+@onready var dash_sfx: AudioStreamPlayer = $Sfx/dash_sfx
+@onready var dmg_taken_sfx: AudioStreamPlayer = $Sfx/dmg_taken_sfx
+@onready var transition_anim: AnimationPlayer = $CanvasLayer/transition_anim
 
 @onready var top_limit: Marker2D = $"../cam_limits/top_limit"
 @onready var down_limit: Marker2D = $"../cam_limits/down_limit"
@@ -24,6 +29,8 @@ extends CharacterBody2D
 var health_tween: Tween
 var killcount: int = 0
 
+var og_walk_pitch: float 
+
 var cur_health: int:
 	set(new_val):
 		if cur_health != new_val:
@@ -33,14 +40,17 @@ var cur_health: int:
 				health_tween.stop()
 			health_tween = create_tween()
 			health_tween.tween_property(health_bar,"value",cur_health,.25).set_trans(Tween.TRANS_CUBIC)
-			#health_bar.value = cur_health
 
 var dashing: bool = false
 var dash_timer: float = 0.0
 var dashed: bool = false
 var direction: Vector2 = Vector2.ZERO
 
+func yes():
+	player_anims.play("death")
+
 func _ready() -> void:
+	og_walk_pitch = walk_sfx.pitch_scale
 	cam.limit_top = int(top_limit.global_position.y)
 	cam.limit_bottom = int(down_limit.global_position.y)
 	cam.limit_left = int(left_limit.global_position.x)
@@ -65,7 +75,7 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("dash") and direction != Vector2.ZERO and not dashed:
 			dashing = true
 			dashed = true
-			
+			dash_sfx.play()
 			dash_particles.process_material.set("direction", Vector3(-direction.x, -direction.y, 0))
 			dash_timer = dash_duration
 			replenish_dash()
@@ -82,6 +92,10 @@ func _process(_delta: float) -> void:
 		elif direction.x < 0:
 			player_anims.play("dash_2")
 	elif direction.length() > 0:
+		if !walk_sfx.playing:
+			var rand: float = randf_range(-.15,.15)
+			walk_sfx.pitch_scale += rand
+			walk_sfx.play()
 		player_anims.play("walk")
 		walk_particles.emitting = true
 	else:
@@ -99,6 +113,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func take_damage(damage):
+	dmg_taken_sfx.play()
 	cur_health -= damage
 	player_sprite.material.set("shader_parameter/active", true)
 	await get_tree().create_timer(.1).timeout
@@ -110,4 +125,8 @@ func replenish_dash() -> void:
 
 func _on_health_bar_value_changed(value: float) -> void:
 	if value <= 0:
+		death_sfx.play()
 		stage.player_died = true
+
+func _on_walk_sfx_finished() -> void:
+	walk_sfx.pitch_scale = og_walk_pitch
