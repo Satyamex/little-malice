@@ -19,13 +19,13 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_pressed("shoot") and can_shoot:
 		shoot_bullet()
-		gun_anims.play("GunFire")
 
 func shoot_bullet() -> void:
 	var direction = (gun_cursor_sprite.global_position - bullet_spawnpos.global_position)
 	if direction.length() < 20:
 		return
 	can_shoot = false
+	gun_anims.play("GunFire")
 	var bullet = player_bullet.instantiate()
 	add_child(bullet)
 	bullet.global_position = bullet_spawnpos.global_position

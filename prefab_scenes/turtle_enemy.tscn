@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bj650jel8uh1h"]
 
 [ext_resource type="Texture2D" uid="uid://hciomk547426" path="res://sprites/TurtleEnemy.png" id="1_hcapj"]
-[ext_resource type="Script" path="res://prefab_scripts/turtle_enemy.gd" id="1_opkcm"]
+[ext_resource type="Script" uid="uid://ctvxru6yttdl4" path="res://prefab_scripts/turtle_enemy.gd" id="1_opkcm"]
 [ext_resource type="PackedScene" uid="uid://cgjrofl74ryu6" path="res://prefab_scenes/blood_particles.tscn" id="2_yrpo8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hcapj"]

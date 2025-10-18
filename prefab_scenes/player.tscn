@@ -320,7 +320,7 @@ _data = {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ah8x"]
 shader = ExtResource("4_2ju3q")
-shader_parameter/intensity = 1.0
+shader_parameter/intensity = 0.0
 
 [sub_resource type="Curve" id="Curve_3gqde"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.41081083, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
